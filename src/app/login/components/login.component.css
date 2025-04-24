@@ -1,0 +1,33 @@
+#container-login {
+    height: 100vh;
+}
+
+#spinner-container {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.spinner-border {
+    width: 7.5rem;
+    height: 7.5rem;
+    border: 0.5rem solid currentColor;
+    border-top: 0.5rem solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+}
+
+.spinner-grow {
+    width: 7.5rem;
+    height: 7.5rem;
+    border: 0.5rem solid currentColor;
+    border-radius: 50%;
+}
+
+.spinner-border.text-accent-red {
+    color: var(--accent-red);
+  }
+  

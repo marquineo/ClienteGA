@@ -1,0 +1,159 @@
+/* ======= VARIABLES ======= */
+:root {
+    --bg-dark: #121212;
+    --bg-secondary: #1E1E1E;
+    --text-primary: #F5F5F5;
+    --text-secondary: #CCCCCC;
+    --accent-red: #E53935;
+    --accent-yellow: #FFEB3B;
+    --accent-green: #43A047;
+    --border-gray: #424242;
+    --font-main: 'Poppins', sans-serif;
+  }
+  
+  /* ======= BASE STYLES ======= */
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+  }
+  
+  a {
+    color: var(--accent-red);
+  }
+  a:hover {
+    color: var(--accent-yellow);
+  }
+  
+  h1, h2, h3, h4, h5 {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  
+  p {
+    color: var(--text-secondary);
+  }
+  
+  /* ======= CARDS & PANELS ======= */
+  .card, .panel, .custom-panel {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-gray);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  
+  /* ======= BUTTONS ======= */
+  .btn-primary,
+  .btn-danger {
+    background-color: var(--accent-red);
+    border: none;
+    color: #fff;
+  }
+  .btn-primary:hover,
+  .btn-danger:hover {
+    background-color: #c62828;
+  }
+  
+  .btn-outline-light {
+    border: 1px solid var(--text-secondary);
+    color: var(--text-secondary);
+  }
+  .btn-outline-light:hover {
+    background-color: var(--text-secondary);
+    color: var(--bg-dark);
+  }
+  
+  .btn-outline-warning {
+    border: 1px solid var(--accent-yellow);
+    color: var(--accent-yellow);
+  }
+  .btn-outline-warning:hover {
+    background-color: var(--accent-yellow);
+    color: var(--bg-dark);
+  }
+  
+  /* ======= FORMS ======= */
+  input, select, textarea {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-gray);
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-red);
+    box-shadow: 0 0 0 0.2rem rgba(229, 57, 53, 0.25);
+  }
+  
+  /* ======= CHARTS / VISUALS (optional classes) ======= */
+  .chart-container {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-gray);
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  .chart-title {
+    color: var(--accent-yellow);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* ======= UTILITIES ======= */
+  .text-accent-red { color: var(--accent-red); }
+  .text-accent-yellow { color: var(--accent-yellow); }
+  .text-accent-green { color: var(--accent-green); }
+  
+  .bg-accent-red { background-color: var(--accent-red); }
+  .bg-accent-yellow { background-color: var(--accent-yellow); }
+  .bg-accent-green { background-color: var(--accent-green); }
+  
+
+  /* Fondo general y cards */
+.bg-dark {
+  background-color: var(--bg-dark) !important;
+}
+.text-light {
+  color: var(--text-light);
+}
+.bg-card {
+  background-color: var(--card-dark);
+}
+
+/* Acento rojo */
+.text-accent-red {
+  color: var(--accent-red);
+}
+
+/* Animación al pasar el cursor */
+.animate-card-hover {
+  transition: transform 0.3s ease;
+}
+.animate-card-hover:hover {
+  transform: scale(1.15);
+  z-index: 2;
+}
+
+/* Footer frase */
+#fraseEstoica {
+  color: var(--text-gray);
+  font-size: 0.95rem;
+}
+
+/* Botones */
+.btn-outline-danger {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+.btn-outline-danger:hover {
+  background-color: var(--accent-red);
+  color: white;
+}
+/* Busqueda input dashboard-entrenador */
+input.form-control::placeholder {
+  color: var(--text-gray);
+}
+input.form-control:focus {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);
+}

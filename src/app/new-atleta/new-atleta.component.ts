@@ -1,0 +1,92 @@
+import { Component } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { StoicQuoteService } from '../services/stoic-quotesService';
+import { FormsModule } from '@angular/forms';
+import { NewAtletaService } from '../services/new-atleta.service';
+import { RouterModule } from '@angular/router';
+
+interface Atleta {
+  nombre: string,
+  username: string,
+  password: string,
+  email: string,
+  foto: File | null,
+  peso: GLfloat,
+  altura: GLfloat,
+  role_id: number
+}
+
+@Component({
+  selector: 'app-new-atleta',
+  imports: [FormsModule, RouterModule],
+  templateUrl: './new-atleta.component.html',
+  styleUrl: './new-atleta.component.css',
+  animations: [
+    trigger('fadeInOut', [
+      state('visible', style({ opacity: 1 })),
+      state('hidden', style({ opacity: 0 })),
+      transition('visible => hidden', [animate('400ms ease-out')]),
+      transition('hidden => visible', [animate('400ms ease-in')])
+    ])
+  ]
+})
+export class NewAtletaComponent {
+  atletaAct: Atleta = { nombre: '', username: '', password: '', email: '', foto: null, peso: 0, altura: 0, role_id: 3 }
+  quote: string = '';
+  author: string = '';
+  nombreEntrenador = sessionStorage.getItem('username');
+  visible: 'visible' | 'hidden' = 'visible';
+  fotoSeleccionada: File | null = null;
+
+  constructor(private __stoicQuoteService: StoicQuoteService, private __newAtletaService: NewAtletaService) { }
+
+  ngOnInit(): void {
+    this.fetchQuote();
+  }
+
+  fetchQuote(): void {
+    this.visible = 'hidden';
+
+    setTimeout(() => {
+      this.__stoicQuoteService.getRandomQuote().subscribe((data) => {
+        this.quote = data.text;
+        this.author = data.author;
+        this.visible = 'visible';
+      });
+    }, 400); // esperar que termine el fade-out antes de cambiar la frase
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.fotoSeleccionada = input.files[0];
+    }
+  }
+
+  submitForm(): void {
+    const formData = new FormData();
+    formData.append('nombre', this.atletaAct.nombre);
+    formData.append('username', this.atletaAct.username);
+    formData.append('password', this.atletaAct.password);
+    formData.append('email', this.atletaAct.email);
+    formData.append('peso', String(this.atletaAct.peso));
+    formData.append('altura', String(this.atletaAct.altura));
+    formData.append('role_id', String(this.atletaAct.role_id));
+    formData.append('trainer_id',String(sessionStorage.getItem('id')))
+    if (this.fotoSeleccionada !== null) {
+      formData.append('foto', this.fotoSeleccionada);
+    }
+    console.log("formData", formData);
+    this.__newAtletaService.nuevoAtleta(formData).subscribe({
+      next: (response) => {
+        console.log("Atleta creado", response);
+        //TODO dirijir a dashboard-entrenadores
+        //TODO mensaje toast success
+      },
+      error: (error) => {
+        console.log("Error al crear atleta", error);
+        //TODO mensaje toast error
+      }
+    })
+  }
+}

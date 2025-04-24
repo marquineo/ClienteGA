@@ -1,0 +1,57 @@
+<div [style.backgroundImage]="backgroundUrl"
+     style="background-size: cover; background-repeat: no-repeat; height: 100vh; background-color: var(--bg-dark);">
+  <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100%;">
+    
+    <!-- Spinner -->
+    <div id="spinner-container" *ngIf="loading" class="position-absolute top-50 start-50 translate-middle">
+      <div class="spinner-border text-accent-red" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="col-11 col-sm-8 col-md-6 col-lg-5">
+      <div class="card shadow-lg">
+        <div class="card-header text-center bg-accent-red text-white rounded-top">
+          <h2 class="fs-4 mb-0">Inicio de sesión</h2>
+        </div>
+        <div class="card-body">
+          <ng-container *ngTemplateOutlet="contentFormLoginAccounting"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Form Template -->
+  <ng-template #contentFormLoginAccounting>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      
+      <div *ngIf="isErrorVisible" class="alert alert-danger" role="alert">
+        Usuario y/o contraseña incorrectos
+      </div>
+
+      <div class="mb-3">
+        <label for="usernameLogin" class="form-label">Nombre de usuario</label>
+        <input type="text" class="form-control" formControlName="usernameLogin" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <div class="input-group">
+          <input [type]="showPassword ? 'text' : 'password'" class="form-control" formControlName="passwordLogin" required>
+          <button class="btn btn-outline-light" type="button" (click)="changePasswordVisibility()">
+            <i class="fa-regular" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-danger w-100">
+            <i class="fas fa-dumbbell me-2"></i>
+            {{ leyendBtn }}&nbsp;&nbsp;
+            <i class="fas fa-dumbbell me-2"></i>
+          </button>    
+      </div>
+    </form>
+  </ng-template>
+</div>

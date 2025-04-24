@@ -1,0 +1,66 @@
+<div class="dashboard bg-dark text-light min-vh-100 d-flex flex-column justify-content-between p-4">
+    <div class="logo fw-bold fs-4 text-accent-red">LOGO</div>
+
+    <!-- HEADER -->
+    <div id="header" class="d-flex justify-content-between align-items-start mb-4">
+        <button type="submit" class="btn btn-outline-warning" [routerLink]="['/dashboard-entrenador']">volver</button>
+        <div class="d-flex flex-column align-items-end">
+            <h2 class="mb-2">Panel de {{ nombreEntrenador }}</h2>
+            <button class="btn btn-outline-danger">Editar perfil de entrenador</button>
+        </div>
+    </div>
+
+    <!-- FORMULARIO NUEVO ATLETA -->
+    <form class="custom-panel w-50 align-self-center" (ngSubmit)="submitForm()" enctype="multipart/form-data">
+        <h3 class="mb-4">Nuevo Atleta</h3>
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input id="nombre" class="form-control" type="text" [(ngModel)]="atletaAct.nombre" name="nombre" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input id="username" class="form-control" type="text" [(ngModel)]="atletaAct.username" name="username"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label for="contrasenya" class="form-label">Contraseña</label>
+            <input id="contrasenya" class="form-control" type="password" [(ngModel)]="atletaAct.password"
+                name="contrasenya" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="correo" class="form-label">Correo electrónico</label>
+            <input id="correo" class="form-control" type="email" [(ngModel)]="atletaAct.email" name="correo" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="foto" class="form-label">Foto de perfil</label>
+            <input id="foto" class="form-control" type="file" (change)="onFileSelected($event)" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+            <label for="peso" class="form-label">Peso (kg)</label>
+            <input id="peso" class="form-control" type="number" [(ngModel)]="atletaAct.peso" name="peso" step="0.1"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label for="altura" class="form-label">Altura (cm)</label>
+            <input id="altura" class="form-control" type="number" [(ngModel)]="atletaAct.altura" name="altura"
+                step="0.1" required>
+        </div>
+
+        <button type="submit" class="btn btn-outline-warning w-100">Guardar Atleta</button>
+    </form>
+
+    <!-- FOOTER -->
+    <div id="footer" class="text-center p-3 mt-5">
+        <p id="fraseEstoica" class="fst-italic text-gray" [@fadeInOut]="visible">
+            "{{ quote }}", {{ author }}
+        </p>
+        <button class="btn btn-outline-danger" (click)="fetchQuote()">Obtener otra</button>
+    </div>
+</div>
