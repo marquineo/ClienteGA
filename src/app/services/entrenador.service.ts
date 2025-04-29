@@ -21,4 +21,8 @@ export class EntrenadorService {
   getClientes(entrenadorId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/${entrenadorId}/clientes`);
   }
+
+  getEntrenador(entrenadorId:number):Observable<any>{
+    return this.http.get(`${this.apiUrl}/${entrenadorId}/indexUserByID`)
+  }
 }

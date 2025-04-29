@@ -1,1 +1,70 @@
-<p>perfil-entrenador works!</p>
+<div class="dashboard bg-dark text-light min-vh-100 d-flex flex-column justify-content-between p-4">
+    <div class="logo fw-bold fs-4 text-accent-red">LOGO</div>
+
+    <!-- HEADER -->
+    <header class="d-flex justify-content-between align-items-start mb-4">
+        <button type="submit" class="btn btn-outline-warning" [routerLink]="['/dashboard-entrenador']">volver</button>
+        <div class="d-flex flex-column align-items-end">
+            <h2 class="mb-2">Panel de {{ nombreEntrenador }}</h2>
+            <button class="btn btn-outline-danger" disabled>Editar perfil de entrenador</button>
+        </div>
+    </header>
+    <!--BODY-->
+    <form class="custom-panel w-50 align-self-center border border-secondary p-4 rounded-4 shadow-lg bg-black text-light" (ngSubmit)="submitForm()" [formGroup]="trainerForm">
+        <div class="mb-3 text-center">
+          <label for="profilePhoto" class="form-label d-block fw-semibold">Foto de perfil</label>
+          <input type="file" class="form-control bg-dark border-secondary text-light" id="profilePhoto" (change)="onFileChange($event)">
+        </div>
+      
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre completo</label>
+          <input type="text" class="form-control bg-dark border-secondary text-light" formControlName="name" [(ngModel)]="this.entrenadorAct.name" required>
+        </div>
+      
+        <div class="mb-3">
+          <label for="username" class="form-label">Usuario</label>
+          <input type="text" class="form-control bg-dark border-secondary text-light" formControlName="username" [(ngModel)]="this.entrenadorAct.username" required>
+        </div>
+      
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" class="form-control bg-dark border-secondary text-light" formControlName="password" [(ngModel)]="this.entrenadorAct.password" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo</label>
+            <input type="email" class="form-control bg-dark border-secondary text-light" formControlName="email" [(ngModel)]="this.entrenadorAct.email" required>
+          </div>
+      
+        <div class="mb-3">
+          <label for="peso" class="form-label">Peso (kg)</label>
+          <input type="number" class="form-control bg-dark border-secondary text-light" formControlName="peso" [(ngModel)]="this.entrenadorAct.peso">
+        </div>
+      
+        <div class="mb-3">
+          <label for="altura" class="form-label">Altura (cm)</label>
+          <input type="number" class="form-control bg-dark border-secondary text-light" formControlName="altura" [(ngModel)]="this.entrenadorAct.altura">
+        </div>
+      
+        <div class="mb-3">
+          <label for="numAtletas" class="form-label">Cantidad de atletas</label>
+          <input type="number" class="form-control bg-dark border-secondary text-light" formControlName="numAtletas" readonly [(ngModel)]="this.entrenadorAct.cantAtletas">
+        </div>
+      
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-outline-warning px-4">
+            Guardar cambios
+          </button>
+        </div>
+      </form>
+      
+
+    <!-- FOOTER -->
+    <footer class="text-center p-3 mt-4">
+        <p id="fraseEstoica" class="fst-italic text-gray" [@fadeInOut]="visible">
+            "{{ quote }}", {{ author }}
+        </p>
+
+        <button class="btn btn-outline-danger" (click)="fetchQuote()">Obtener otra</button>
+    </footer>
+</div>

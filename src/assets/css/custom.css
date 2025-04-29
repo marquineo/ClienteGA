@@ -155,5 +155,5 @@ input.form-control::placeholder {
 }
 input.form-control:focus {
   border-color: var(--accent-red);
-  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.4);
 }
