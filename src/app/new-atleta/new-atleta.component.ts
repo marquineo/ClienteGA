@@ -4,6 +4,7 @@ import { StoicQuoteService } from '../services/stoic-quotesService';
 import { FormsModule } from '@angular/forms';
 import { NewAtletaService } from '../services/new-atleta.service';
 import { RouterModule } from '@angular/router';
+import * as bootstrap from 'bootstrap';
 
 interface Atleta {
   nombre: string,
@@ -13,7 +14,8 @@ interface Atleta {
   foto: File | null,
   peso: GLfloat,
   altura: GLfloat,
-  role_id: number
+  role_id: number,
+  id: number
 }
 
 @Component({
@@ -31,7 +33,7 @@ interface Atleta {
   ]
 })
 export class NewAtletaComponent {
-  atletaAct: Atleta = { nombre: '', username: '', password: '', email: '', foto: null, peso: 0, altura: 0, role_id: 3 }
+  atletaAct: Atleta = { nombre: '', username: '', password: '', email: '', foto: null, peso: 0, altura: 0, role_id: 3, id:0 }
   quote: string = '';
   author: string = '';
   nombreEntrenador = sessionStorage.getItem('username');
@@ -89,4 +91,37 @@ export class NewAtletaComponent {
       }
     })
   }
+
+  
+  mostrarExitoEliminacion() {
+    this.toastr.success('Factura eliminada correctamente', 'Éxito');
+  }
+  confirmarEliminacion() {
+    if (this.atletaAct) {
+      console.log("entrando a confirmar eliminacion")
+      console.log("atletaAct:", this.atletaAct);
+      this.eliminarAtleta();
+
+      // Cerrar el modal manualmente
+      const modalElement = document.getElementById('modalConfirmarEliminacion');
+      if (modalElement) {
+        const modalBootstrap = bootstrap.Modal.getInstance(modalElement);
+        if (modalBootstrap) {  // Asegúrate de que modalBootstrap no sea null
+          modalBootstrap.hide();  // Ocultar el modal
+        }
+      }
+    }
+  }
+    // Método para abrir el modal
+    abrirModal() {
+      const modalElement = document.getElementById('modalConfirmarEliminacion');
+      if (modalElement) {
+        const modalBootstrap = new bootstrap.Modal(modalElement);
+        modalBootstrap.show(); // Abre el modal
+      }
+    }
+
+    eliminarAtleta(){
+      this.__newAtletaService.eliminarAtleta(this.atletaAct.id)//TODO formulario solo pesando para crear nuevos atletas, reutilizar formulario para editar y eliminar atletas
+    }
 }

@@ -36,39 +36,6 @@ export class DashboardEntrenadorComponent implements OnInit {
   filtroNombre: string = '';
   visible: 'visible' | 'hidden' = 'visible';
   atletas: Atleta[] = []
-    /*{
-      nombre: "Lucia Fernandez",
-      bloque: 1,
-      semana: 2,
-      peso: 62.5,
-      entrenamiento: "SBD primario",
-      imagen: "assets/atleta1.png"
-    },
-    {
-      nombre: "Carlos Mendez",
-      bloque: 2,
-      semana: 4,
-      peso: 78.3,
-      entrenamiento: "Descanso",
-      imagen: "assets/atleta2.png"
-    },
-    {
-      nombre: "Ana Ruiz",
-      bloque: 3,
-      semana: 1,
-      peso: 54.2,
-      entrenamiento: "Benchpress 3º",
-      imagen: "assets/atleta3.png"
-    },
-    {
-      nombre: "Javier Torres",
-      bloque: 1,
-      semana: 3,
-      peso: 88.0,
-      entrenamiento: "Deadlift 2º",
-      imagen: "assets/atleta4.png"
-    }
-  ];*/
   atletasFiltrados: Atleta[] = [];
   nombreEntrenador = sessionStorage.getItem('username');
   id = Number(sessionStorage.getItem('id'));
@@ -113,4 +80,5 @@ export class DashboardEntrenadorComponent implements OnInit {
       }
     })
   }
+
 }
