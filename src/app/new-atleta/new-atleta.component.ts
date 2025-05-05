@@ -93,9 +93,9 @@ export class NewAtletaComponent {
   }
 
   
-  mostrarExitoEliminacion() {
+  /*mostrarExitoEliminacion() {
     this.toastr.success('Factura eliminada correctamente', 'Éxito');
-  }
+  }*/
   confirmarEliminacion() {
     if (this.atletaAct) {
       console.log("entrando a confirmar eliminacion")
