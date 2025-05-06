@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { NewAtletaService } from '../services/new-atleta.service';
 import { RouterModule } from '@angular/router';
 import * as bootstrap from 'bootstrap';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 interface Atleta {
   nombre: string,
@@ -40,7 +42,7 @@ export class NewAtletaComponent {
   visible: 'visible' | 'hidden' = 'visible';
   fotoSeleccionada: File | null = null;
 
-  constructor(private __stoicQuoteService: StoicQuoteService, private __newAtletaService: NewAtletaService) { }
+  constructor(private __stoicQuoteService: StoicQuoteService, private toastr: ToastrService, private __newAtletaService: NewAtletaService, private router: Router) { }
 
   ngOnInit(): void {
     this.fetchQuote();
@@ -82,12 +84,12 @@ export class NewAtletaComponent {
     this.__newAtletaService.nuevoAtleta(formData).subscribe({
       next: (response) => {
         console.log("Atleta creado", response);
-        //TODO dirijir a dashboard-entrenadores
-        //TODO mensaje toast success
+        this.router.navigate(["/dashboard-entrenadores"]);
+        this.toastr.success('Atleta creado correctamente','Éxito')
       },
       error: (error) => {
         console.log("Error al crear atleta", error);
-        //TODO mensaje toast error
+        this.toastr.error('Error al crear Atleta','Error')
       }
     })
   }

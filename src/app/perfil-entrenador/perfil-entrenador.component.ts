@@ -12,7 +12,8 @@ interface Entrenador {
   peso: GLfloat,
   altura: number,
   email: string,
-  cantAtletas: number
+  cantAtletas: number,
+  fotoURL: string
 }
 
 @Component({
@@ -30,7 +31,7 @@ interface Entrenador {
   ]
 })
 export class PerfilEntrenadorComponent {
-  entrenadorAct: Entrenador = { name: '', password: '', username: '', peso: 0, email: '', altura: 0, cantAtletas: 0 }
+  entrenadorAct: Entrenador = { name: '', password: '', username: '', peso: 0, email: '', altura: 0, cantAtletas: 0, fotoURL: '' }
   quote: string = '';
   author: string = '';
   nombreEntrenador = sessionStorage.getItem('username');
@@ -52,7 +53,8 @@ export class PerfilEntrenadorComponent {
       peso: [''],
       email: [''],
       altura: [''],
-      numAtletas: [{ value: 0, disabled: true }]
+      numAtletas: [{ value: 0, disabled: true }],
+      fotoURL:['']
     });
   }
 
@@ -93,6 +95,7 @@ export class PerfilEntrenadorComponent {
         this.entrenadorAct.peso = response.data.peso;
         this.entrenadorAct.email = response.data.email;
         this.entrenadorAct.altura = response.data.altura;
+        this.entrenadorAct.fotoURL = response.data.fotoURL;
       },
       error: (error) => {
         console.log("error:", error);
