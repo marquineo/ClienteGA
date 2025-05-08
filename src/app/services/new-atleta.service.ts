@@ -19,7 +19,7 @@ interface Atleta {
 export class NewAtletaService {
 
   //urlApi = "http://192.168.0.13:8000/api/cuentas";  // URL base de la API SERVER
-  urlApi = "http://3.64.53.199:8000/users";  // URL base de la API LOCAL
+  urlApi = "https://api.gymbroanalytics.xyz/users";  // URL base de la API LOCAL
 
   httpOptions = {
     headers: new HttpHeaders({
