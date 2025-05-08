@@ -13,6 +13,9 @@
     <form class="custom-panel w-50 align-self-center border border-secondary p-4 rounded-4 shadow-lg bg-black text-light" (ngSubmit)="submitForm()" [formGroup]="trainerForm">
         <div class="mb-3 text-center">
           <label for="profilePhoto" class="form-label d-block fw-semibold">Foto de perfil</label>
+          <div style="height: 10vh;">
+            <img [src]="entrenadorAct.fotoURL" class="card-img-top" alt="Imagen entrenador">
+          </div>
           <input type="file" class="form-control bg-dark border-secondary text-light" id="profilePhoto" (change)="onFileChange($event)">
         </div>
       
