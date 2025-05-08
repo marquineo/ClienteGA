@@ -9,7 +9,7 @@ export class LoginService {
 
 
   //urlApi = "https://backga-1.onrender.com";  // URL base de la API SERVER
-  urlApi = "http://127.0.0.1:8000";  // URL base de la API LOCAL
+  urlApi = "http://3.64.53.199:8000";  // URL base de la API LOCAL
 
   currentUsername: string = '';
 

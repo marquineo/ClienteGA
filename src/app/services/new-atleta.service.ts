@@ -19,7 +19,7 @@ interface Atleta {
 export class NewAtletaService {
 
   //urlApi = "http://192.168.0.13:8000/api/cuentas";  // URL base de la API SERVER
-
+  urlApi = "http://3.64.53.199:8000/users";  // URL base de la API LOCAL
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -40,7 +40,7 @@ export class NewAtletaService {
       tap(response => console.log("Respuesta del servidor:", response))
     );
   }
-  urlApi = "http://127.0.0.1:8000/users";  // URL base de la API LOCAL
+
   eliminarAtleta(atletaID: number): Observable<any> {
     console.log("entrando a eliminarAtleta");
     const URLDELETE = this.urlApi + "/" + atletaID;
