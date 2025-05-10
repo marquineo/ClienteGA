@@ -6,7 +6,7 @@ import { NewAtletaService } from '../services/new-atleta.service';
 import { RouterModule } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { CustomToastrService } from '../services/custom-toastr.service';
 
 interface Atleta {
   nombre: string,
@@ -35,14 +35,14 @@ interface Atleta {
   ]
 })
 export class NewAtletaComponent {
-  atletaAct: Atleta = { nombre: '', username: '', password: '', email: '', foto: null, peso: 0, altura: 0, role_id: 3, id:0 }
+  atletaAct: Atleta = { nombre: '', username: '', password: '', email: '', foto: null, peso: 0, altura: 0, role_id: 3, id: 0 }
   quote: string = '';
   author: string = '';
   nombreEntrenador = sessionStorage.getItem('username');
   visible: 'visible' | 'hidden' = 'visible';
   fotoSeleccionada: File | null = null;
 
-  constructor(private __stoicQuoteService: StoicQuoteService, private toastr: ToastrService, private __newAtletaService: NewAtletaService, private router: Router) { }
+  constructor(private __stoicQuoteService: StoicQuoteService, private toastr: CustomToastrService, private __newAtletaService: NewAtletaService, private router: Router) { }
 
   ngOnInit(): void {
     this.fetchQuote();
@@ -76,7 +76,7 @@ export class NewAtletaComponent {
     formData.append('peso', String(this.atletaAct.peso));
     formData.append('altura', String(this.atletaAct.altura));
     formData.append('role_id', String(this.atletaAct.role_id));
-    formData.append('trainer_id',String(sessionStorage.getItem('id')))
+    formData.append('trainer_id', String(sessionStorage.getItem('id')))
     if (this.fotoSeleccionada !== null) {
       formData.append('foto', this.fotoSeleccionada);
     }
@@ -85,16 +85,16 @@ export class NewAtletaComponent {
       next: (response) => {
         console.log("Atleta creado", response);
         this.router.navigate(["/dashboard-entrenadores"]);
-        this.toastr.success('Atleta creado correctamente','Éxito')
+        this.toastr.show('Atleta creado correctamente', 'error')
       },
       error: (error) => {
         console.log("Error al crear atleta", error);
-        this.toastr.error('Error al crear Atleta','Error')
+        this.toastr.show('Error al crear Atleta', 'error')
       }
     })
   }
 
-  
+
   /*mostrarExitoEliminacion() {
     this.toastr.success('Factura eliminada correctamente', 'Éxito');
   }*/
@@ -114,16 +114,16 @@ export class NewAtletaComponent {
       }
     }
   }
-    // Método para abrir el modal
-    abrirModal() {
-      const modalElement = document.getElementById('modalConfirmarEliminacion');
-      if (modalElement) {
-        const modalBootstrap = new bootstrap.Modal(modalElement);
-        modalBootstrap.show(); // Abre el modal
-      }
+  // Método para abrir el modal
+  abrirModal() {
+    const modalElement = document.getElementById('modalConfirmarEliminacion');
+    if (modalElement) {
+      const modalBootstrap = new bootstrap.Modal(modalElement);
+      modalBootstrap.show(); // Abre el modal
     }
+  }
 
-    eliminarAtleta(){
-      this.__newAtletaService.eliminarAtleta(this.atletaAct.id)//TODO formulario solo pesando para crear nuevos atletas, reutilizar formulario para editar y eliminar atletas
-    }
+  eliminarAtleta() {
+    this.__newAtletaService.eliminarAtleta(this.atletaAct.id)//TODO formulario solo pesando para crear nuevos atletas, reutilizar formulario para editar y eliminar atletas
+  }
 }

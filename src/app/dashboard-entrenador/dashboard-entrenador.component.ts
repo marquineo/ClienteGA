@@ -43,6 +43,7 @@ export class DashboardEntrenadorComponent implements OnInit {
   constructor(private __stoicQuoteService: StoicQuoteService, private __entrenadorService: EntrenadorService) { }
 
   ngOnInit(): void {
+    console.log("entranodo en dashboard-entrenador");
     this.fetchQuote();
     this.getAtletas();
   }

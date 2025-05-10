@@ -44,7 +44,7 @@ export class LoginService {
 
   login(username: string, password: string): Observable<any> {
     const body = {
-      "username": username,
+      "Usuarioname": username,
       "password": password
     };
     return this.http.post<any>(`${this.urlApi}/users/login`, body, this.httpOptions)

@@ -76,12 +76,15 @@ export class LoginComponent {
             this.loading = false;
             console.log("logged", response);
             //FIXME puenteado para desarrollo cambiar a 1-2-3
-            if (response.rol == 2) {//Administrador
-              this._route.navigate(['/dashboard-administrador']);
-            } else if (response.rol == 1) {//Entrenador
+            if (response.rol == "admin") {//Administrador
               this._route.navigate(['/dashboard-entrenador']);
-            } else if (response.rol == 3) {//Cliente
+              console.log("administrador");
+            } else if (response.rol == "admin") {//Entrenador
+              this._route.navigate(['/dashboard-entrenador']);
+              console.log("entrenador");
+            } else if (response.rol == "admin") {//Cliente
               this._route.navigate(['/dashboard-cliente']);
+              console.log("cliente");
             } else {
               this.errorRoles();
             }
