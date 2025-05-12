@@ -18,8 +18,8 @@ interface Atleta {
 })
 export class NewAtletaService {
 
-  //urlApi = "http://192.168.0.13:8000/api/cuentas";  // URL base de la API SERVER
-  urlApi = "https://api.gymbroanalytics.xyz/users";  // URL base de la API LOCAL
+  urlApi = "http://127.0.0.1:8000/users";  // URL base de la API LOCAL
+  //urlApi = "https://api.gymbroanalytics.xyz/users";  // URL base de la API LOCAL
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -33,10 +33,11 @@ export class NewAtletaService {
 
   nuevoAtleta(formData: FormData): Observable<any> {
     console.log("entrando en nuevoAtleta");
+    const URLPOST = this.urlApi + "/registrar/cliente";
     for (const pair of formData.entries()) {
       console.log(pair[0] + ':', pair[1]);
     }
-    return this.http.post<any>(this.urlApi, formData).pipe(
+    return this.http.post<any>(URLPOST, formData).pipe(
       tap(response => console.log("Respuesta del servidor:", response))
     );
   }

@@ -71,6 +71,7 @@ export class LoginComponent {
             sessionStorage.setItem('username', username);
             sessionStorage.setItem('rol', response.rol);
             sessionStorage.setItem('id',response.id)
+            console.log("response.id",response.id);
 
             this.authService.login(username);
             this.loading = false;
@@ -79,7 +80,7 @@ export class LoginComponent {
             if (response.rol == "admin") {//Administrador
               this._route.navigate(['/dashboard-entrenador']);
               console.log("administrador");
-            } else if (response.rol == "admin") {//Entrenador
+            } else if (response.rol == "entrenador") {//Entrenador
               this._route.navigate(['/dashboard-entrenador']);
               console.log("entrenador");
             } else if (response.rol == "admin") {//Cliente

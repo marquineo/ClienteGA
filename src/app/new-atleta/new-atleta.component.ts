@@ -70,13 +70,12 @@ export class NewAtletaComponent {
   submitForm(): void {
     const formData = new FormData();
     formData.append('nombre', this.atletaAct.nombre);
-    formData.append('username', this.atletaAct.username);
-    formData.append('password', this.atletaAct.password);
+    formData.append('contrasenya', this.atletaAct.password);
     formData.append('email', this.atletaAct.email);
     formData.append('peso', String(this.atletaAct.peso));
     formData.append('altura', String(this.atletaAct.altura));
     formData.append('role_id', String(this.atletaAct.role_id));
-    formData.append('trainer_id', String(sessionStorage.getItem('id')))
+    formData.append('entrenador_id', String(sessionStorage.getItem('id')));
     if (this.fotoSeleccionada !== null) {
       formData.append('foto', this.fotoSeleccionada);
     }
@@ -84,11 +83,12 @@ export class NewAtletaComponent {
     this.__newAtletaService.nuevoAtleta(formData).subscribe({
       next: (response) => {
         console.log("Atleta creado", response);
-        this.router.navigate(["/dashboard-entrenadores"]);
+        this.router.navigate(["/dashboard-entrenador"]);
         this.toastr.show('Atleta creado correctamente', 'error')
       },
       error: (error) => {
-        console.log("Error al crear atleta", error);
+        console.log("Error al crear atleta", error.error); // <-- Esto te da los mensajes de validación exactos
+
         this.toastr.show('Error al crear Atleta', 'error')
       }
     })

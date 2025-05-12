@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EntrenadorService {
-  private apiUrl = 'https://api.gymbroanalytics.xyz/users';
+    //urlApi = 'https://api.gymbroanalytics.xyz/users';
+    urlApi = "http://127.0.0.1:8000/users";  // URL base de la API LOCAL
 
   constructor(private http: HttpClient) {}
 
@@ -15,14 +16,14 @@ export class EntrenadorService {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
 
-    return this.http.get(`${this.apiUrl}/dashboard`, { headers });
+    return this.http.get(`${this.urlApi}/dashboard`, { headers });
   }
 
   getClientes(entrenadorId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${entrenadorId}/clientes`);
+    return this.http.get(`${this.urlApi}/${entrenadorId}/clientes`);
   }
 
   getEntrenador(entrenadorId:number):Observable<any>{
-    return this.http.get(`${this.apiUrl}/${entrenadorId}/indexUserByID`)
+    return this.http.get(`${this.urlApi}/${entrenadorId}/indexUserByID`)
   }
 }
