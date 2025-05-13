@@ -11,47 +11,50 @@
     </header>
     <!--BODY-->
     <form class="custom-panel w-50 align-self-center border border-secondary p-4 rounded-4 shadow-lg bg-black text-light" (ngSubmit)="submitForm()" [formGroup]="trainerForm">
-        <div class="mb-3 text-center">
-          <label for="profilePhoto" class="form-label d-block fw-semibold">Foto de perfil</label>
-          <div style="height: 10vh;">
-            <img [src]="entrenadorAct.fotoURL" class="card-img-top" alt="Imagen entrenador">
-          </div>
-          <input type="file" class="form-control bg-dark border-secondary text-light" id="profilePhoto" (change)="onFileChange($event)">
+<div class="mb-3 text-center">
+  <label for="profilePhoto" class="form-label d-block fw-semibold">Foto de perfil</label>
+  
+  <div class="img-container mx-auto mb-2">
+    <img [src]="this.entrenadorAct.fotoURL" alt="Imagen entrenador" class="profile-img img-fluid rounded">
+  </div>
+
+  <input type="file" class="form-control bg-dark border-secondary text-light" id="profilePhoto" (change)="onFileChange($event)">
+</div>
+
+      
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre</label>
+          <input type="text" class="form-control bg-dark border-secondary text-light" formControlName="name">
         </div>
       
         <div class="mb-3">
-          <label for="name" class="form-label">Nombre completo</label>
-          <input type="text" class="form-control bg-dark border-secondary text-light" formControlName="name" [(ngModel)]="this.entrenadorAct.name" required>
+          <label for="especialidad" class="form-label">Especialidad</label>
+          <input type="text" class="form-control bg-dark border-secondary text-light" formControlName="especialidad" required>
         </div>
       
         <div class="mb-3">
-          <label for="username" class="form-label">Usuario</label>
-          <input type="text" class="form-control bg-dark border-secondary text-light" formControlName="username" [(ngModel)]="this.entrenadorAct.username" required>
-        </div>
-      
-        <div class="mb-3">
-          <label for="password" class="form-label">Contraseña</label>
-          <input type="password" class="form-control bg-dark border-secondary text-light" formControlName="password" [(ngModel)]="this.entrenadorAct.password" required>
+          <label for="password" class="form-label">Nueva Contraseña</label>
+          <input type="password" class="form-control bg-dark border-secondary text-light" formControlName="password" placeholder="Escriba la nueva contraseña">
         </div>
 
         <div class="mb-3">
             <label for="email" class="form-label">Correo</label>
-            <input type="email" class="form-control bg-dark border-secondary text-light" formControlName="email" [(ngModel)]="this.entrenadorAct.email" required>
+            <input type="email" class="form-control bg-dark border-secondary text-light" formControlName="email" required>
           </div>
       
         <div class="mb-3">
-          <label for="peso" class="form-label">Peso (kg)</label>
-          <input type="number" class="form-control bg-dark border-secondary text-light" formControlName="peso" [(ngModel)]="this.entrenadorAct.peso">
+          <label for="experiencia" class="form-label">experiencia (años)</label>
+          <input type="number" class="form-control bg-dark border-secondary text-light" formControlName="experiencia">
         </div>
       
         <div class="mb-3">
-          <label for="altura" class="form-label">Altura (cm)</label>
-          <input type="number" class="form-control bg-dark border-secondary text-light" formControlName="altura" [(ngModel)]="this.entrenadorAct.altura">
+          <label for="creado_en" class="form-label">Creado en</label>
+          <input type="text" class="form-control bg-dark border-secondary text-light" formControlName="creado_en">
         </div>
       
         <div class="mb-3">
           <label for="numAtletas" class="form-label">Cantidad de atletas</label>
-          <input type="number" class="form-control bg-dark border-secondary text-light" formControlName="numAtletas" readonly [(ngModel)]="this.entrenadorAct.cantAtletas">
+          <input type="number" class="form-control bg-dark border-secondary text-light" formControlName="numAtletas" readonly>
         </div>
       
         <div class="d-flex justify-content-end">

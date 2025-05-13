@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 
 
 interface Atleta {
-  name: string,
+  nombre: string,
   bloque: number,
   semana: number,
   peso: GLfloat,
@@ -64,7 +64,7 @@ export class DashboardEntrenadorComponent implements OnInit {
       this.atletasFiltrados = this.atletas;
     } else {
       this.atletasFiltrados = this.atletas.filter(atleta =>
-        atleta.name.toLowerCase().includes(this.filtroNombre.toLowerCase())
+        atleta.nombre.toLowerCase().includes(this.filtroNombre.toLowerCase())
       );
     }
   }

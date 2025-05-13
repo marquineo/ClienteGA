@@ -24,6 +24,6 @@ export class EntrenadorService {
   }
 
   getEntrenador(entrenadorId:number):Observable<any>{
-    return this.http.get(`${this.urlApi}/${entrenadorId}/indexUserByID`)
+    return this.http.get(`${this.urlApi}/${entrenadorId}/indexEntrenadorByID`)
   }
 }

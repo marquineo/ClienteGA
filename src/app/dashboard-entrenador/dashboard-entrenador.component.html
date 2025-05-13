@@ -22,13 +22,13 @@
         <div class="card h-100 bg-card border-0 text-light animate-card-hover">
           <img [src]="atleta.fotoURL" class="card-img-top" alt="Imagen atleta">
           <div class="card-body">
-            <h5 class="card-title text-accent-red">{{ atleta.name }}</h5>
+            <h5 class="card-title text-accent-red">{{ atleta.nombre }}</h5>
             <p class="card-text">Bloque {{ atleta.bloque }}º</p>
             <p class="card-text">Semana {{ atleta.semana }}º</p>
             <p class="card-text">Peso {{ atleta.peso }}kg</p>
             <p class="card-text">Entrenamiento de hoy: {{ atleta.entrenamiento }}</p>
             <button class="btn btn-danger w-100 mt-2">Gestionar atleta</button>
-
+            <button class="btn btn-outline-warning w-100 mt-2" [routerLink]="['/rutina-entrenamiento']">Editar Entrenamiento</button>
           </div>
         </div>
       </div>

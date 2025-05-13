@@ -3,6 +3,7 @@ import { LoginComponent } from './login/components/login.component';
 import { DashboardEntrenadorComponent } from './dashboard-entrenador/dashboard-entrenador.component';
 import { NewAtletaComponent } from './new-atleta/new-atleta.component';
 import { PerfilEntrenadorComponent } from './perfil-entrenador/perfil-entrenador.component';
+import { RutinaEntrenamientoComponent } from './rutina-entrenamiento/components/rutina-entrenamiento.component';
 
 export const routes: Routes = [
   // Login
@@ -30,6 +31,11 @@ export const routes: Routes = [
   {
     path: 'perfil-entrenador',
     component: PerfilEntrenadorComponent
+  },
+    // rutinaEnrenamiento
+  {
+    path: 'rutina-entrenamiento',
+    component: RutinaEntrenamientoComponent
   },
 
   // Wildcard debe ir al final

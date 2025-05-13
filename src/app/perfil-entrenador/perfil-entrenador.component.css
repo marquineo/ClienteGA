@@ -1,0 +1,15 @@
+.img-container {
+  width: 100%;
+  max-width: 300px;     /* tamaño máximo opcional */
+  aspect-ratio: 1 / 1;   /* mantiene la imagen cuadrada */
+  overflow: hidden;
+  border-radius: 15%;
+  border: 2px solid #ffc107;
+}
+
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

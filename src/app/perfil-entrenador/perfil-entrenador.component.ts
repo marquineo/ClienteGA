@@ -2,23 +2,25 @@ import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { StoicQuoteService } from '../services/stoic-quotesService';
 import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EntrenadorService } from '../services/entrenador.service';
+import { PerfilEntrenadorService } from '../services/perfil-entrenador.service';
+import { subscribeOn } from 'rxjs';
 
 interface Entrenador {
   name: string,
-  username: string,
   password: string,
-  peso: GLfloat,
-  altura: number,
   email: string,
   cantAtletas: number,
-  fotoURL: string
+  fotoURL: string,
+  creado_en: string,
+  especialidad: string,
+  experiencia: number
 }
 
 @Component({
   selector: 'app-perfil-entrenador',
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [RouterModule, ReactiveFormsModule, FormsModule],
   templateUrl: './perfil-entrenador.component.html',
   styleUrl: './perfil-entrenador.component.css',
   animations: [
@@ -31,7 +33,7 @@ interface Entrenador {
   ]
 })
 export class PerfilEntrenadorComponent {
-  entrenadorAct: Entrenador = { name: '', password: '', username: '', peso: 0, email: '', altura: 0, cantAtletas: 0, fotoURL: '' }
+  entrenadorAct: Entrenador = { name: '', password: '', email: '', cantAtletas: 0, fotoURL: '', creado_en: "", especialidad: "", experiencia: 0 }
   quote: string = '';
   author: string = '';
   nombreEntrenador = sessionStorage.getItem('username');
@@ -40,7 +42,7 @@ export class PerfilEntrenadorComponent {
   trainerForm!: FormGroup;
   selectedFile: File | null = null;
 
-  constructor(private __stoicQuoteService: StoicQuoteService, private fb: FormBuilder, private __entrenadorService: EntrenadorService) { }
+  constructor(private __stoicQuoteService: StoicQuoteService, private fb: FormBuilder, private __entrenadorService: EntrenadorService, private __perfilEntrenadorService: PerfilEntrenadorService) { }
 
   ngOnInit(): void {
     this.fetchQuote();
@@ -50,11 +52,12 @@ export class PerfilEntrenadorComponent {
       name: [''],
       username: [''],
       password: [''],
-      peso: [''],
+      creado_en: [''],
       email: [''],
-      altura: [''],
+      especialidad: [''],
+      experiencia: [''],
       numAtletas: [{ value: 0, disabled: true }],
-      fotoURL:['']
+      fotoURL: ['']
     });
   }
 
@@ -71,13 +74,17 @@ export class PerfilEntrenadorComponent {
   }
 
   getAtletas() {
+    let cantAtletas = 0;
     this.__entrenadorService.getClientes(this.id).subscribe({
       next: (response) => {
         console.log("clientes:", response);
         response.forEach((item: any) => {
-          this.entrenadorAct.cantAtletas++;
+          cantAtletas++;
         });
-        console.log("cantidad atletas:", this.entrenadorAct.cantAtletas)
+        this.trainerForm.patchValue({
+          numAtletas: cantAtletas
+        });
+        console.log("cantidad atletas:", cantAtletas)
       },
       error: (error) => {
         console.log("error al obtener clientes", error);
@@ -86,16 +93,28 @@ export class PerfilEntrenadorComponent {
   }
 
   getEntrenador() {
+    console.log("this.id", this.id)
     this.__entrenadorService.getEntrenador(this.id).subscribe({
       next: (response) => {
         console.log("response", response);
-        this.entrenadorAct.name = response.data.name;
-        this.entrenadorAct.username = response.data.username;
-        this.entrenadorAct.password = response.data.password;
-        this.entrenadorAct.peso = response.data.peso;
-        this.entrenadorAct.email = response.data.email;
-        this.entrenadorAct.altura = response.data.altura;
-        this.entrenadorAct.fotoURL = response.data.fotoURL;
+        /*this.entrenadorAct.name = response.nombre;
+        this.entrenadorAct.creado_en = response.creado_en;
+        this.entrenadorAct.especialidad = response.especialidad;
+        this.entrenadorAct.experiencia = response.experiencia;
+        this.entrenadorAct.password = response.contrasenya;
+        this.entrenadorAct.email = response.email;
+        this.entrenadorAct.fotoURL = response.fotoURL;*/
+        this.trainerForm.patchValue({
+          name: response.nombre,
+          email: response.email,
+          experiencia: response.experiencia,
+          especialidad: response.especialidad,
+          password: response.contrasenya,
+          creado_en: response.creado_en,
+        });
+        this.entrenadorAct.fotoURL = response.fotoURL;
+        console.log("this.entrenadorAct.fotoURL",this.entrenadorAct.fotoURL);
+
       },
       error: (error) => {
         console.log("error:", error);
@@ -107,10 +126,16 @@ export class PerfilEntrenadorComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
-      console.log('Imagen seleccionada:', this.selectedFile.name);
-      // Puedes mostrarla como preview si quieres
+
+      // Mostrar la imagen seleccionada antes de enviar
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.entrenadorAct.fotoURL = e.target.result;
+      };
+      reader.readAsDataURL(this.selectedFile);
     }
   }
+
 
   submitForm(): void {
     if (this.trainerForm.invalid) {
@@ -120,16 +145,26 @@ export class PerfilEntrenadorComponent {
 
     const formValues = this.trainerForm.value;
 
-    const trainerData = {
-      ...formValues,
-      foto: this.selectedFile ? this.selectedFile.name : null // o guarda el archivo como tal
-    };
+    const formData = new FormData();
+    formData.append('nombre', formValues.name);
+    formData.append('email', formValues.email);
+    formData.append('contrasenya', formValues.password);
+    formData.append('especialidad', formValues.especialidad);
+    formData.append('experiencia', String(formValues.experiencia));
 
-    console.log('Datos enviados:', trainerData);
+    if (this.selectedFile) {
+      formData.append('foto', this.selectedFile); // ✅ archivo real, no el nombre
+    }
 
-    // Aquí podrías hacer un POST a tu API, por ejemplo:
-    // this.miServicio.updateTrainerProfile(trainerData).subscribe(...)
+    console.log("Datos enviados:", formData);
+
+    this.__perfilEntrenadorService.updateEntrenador(this.id, formData).subscribe({
+      next: (response) => {
+        console.log("response", response);
+      },
+      error: (error) => {
+        console.log("error", error);
+      }
+    });
   }
-
-
-}
+}//TODO no se guarda la fotoURL del entrenador, sale null

@@ -1,0 +1,50 @@
+<div class="container">
+  <h1>Editar Rutina de Atleta</h1>
+  <form [formGroup]="rutinaForm" (ngSubmit)="guardarRutina()">
+    
+    <!-- Información de la rutina -->
+    <div class="form-group">
+      <label for="nombre">Nombre de la rutina</label>
+      <input type="text" id="nombre" formControlName="nombre" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" formControlName="descripcion" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="duracion_semana">Duración (semana)</label>
+      <input type="number" id="duracion_semana" formControlName="duracion_semana" class="form-control">
+    </div>
+
+    <!-- Ejercicios -->
+    <div formArrayName="ejercicios" *ngFor="let ejercicio of rutinaForm.get('ejercicios').controls; let i = index">
+      <div [formGroupName]="i" class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Ejercicio {{ i + 1 }}</h5>
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" formControlName="nombre" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="series">Series</label>
+            <input type="number" formControlName="series" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="repeticiones">Repeticiones</label>
+            <input type="number" formControlName="repeticiones" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="descanso">Descanso (segundos)</label>
+            <input type="number" formControlName="descanso" class="form-control">
+          </div>
+          <button type="button" (click)="eliminarEjercicio(i)" class="btn btn-danger">Eliminar ejercicio</button>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" (click)="agregarEjercicio()" class="btn btn-primary">Añadir ejercicio</button>
+    <button type="submit" [disabled]="loading" class="btn btn-success mt-3">Guardar rutina</button>
+  </form>
+</div>

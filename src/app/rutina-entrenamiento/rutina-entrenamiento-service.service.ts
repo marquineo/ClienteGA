@@ -1,0 +1,33 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RutinaEntrenamientoService {
+
+  private apiUrl = 'http://localhost/api/rutinas'; // Cambia la URL a la correcta
+
+  constructor(private http: HttpClient) { }
+
+  // Obtener la rutina de un atleta
+  getRutinaPorCliente(clienteId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/cliente/${clienteId}`);
+  }
+
+  // Actualizar rutina de un atleta
+  actualizarRutina(clienteId: number, rutina: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/cliente/${clienteId}`, rutina);
+  }
+
+  // Añadir ejercicio a la rutina
+  agregarEjercicio(clienteId: number, ejercicio: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/cliente/${clienteId}/ejercicio`, ejercicio);
+  }
+
+  // Eliminar ejercicio de la rutina
+  eliminarEjercicio(clienteId: number, ejercicioId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/cliente/${clienteId}/ejercicio/${ejercicioId}`);
+  }
+}
