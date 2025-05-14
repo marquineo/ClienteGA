@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class RutinaEntrenamientoService {
 
-  private apiUrl = 'http://localhost/api/rutinas'; // Cambia la URL a la correcta
+  private apiUrl = 'http://localhost:8000/rutinas'; // Cambia la URL a la correcta
 
   constructor(private http: HttpClient) { }
 
