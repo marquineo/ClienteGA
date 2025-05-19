@@ -4,6 +4,7 @@ import { DashboardEntrenadorComponent } from './dashboard-entrenador/dashboard-e
 import { NewAtletaComponent } from './new-atleta/new-atleta.component';
 import { PerfilEntrenadorComponent } from './perfil-entrenador/perfil-entrenador.component';
 import { RutinaEntrenamientoComponent } from './rutina-entrenamiento/components/rutina-entrenamiento.component';
+import { ProgresoClienteComponent } from './progreso-cliente/component/progreso-cliente.component';
 
 export const routes: Routes = [
   // Login
@@ -36,6 +37,10 @@ export const routes: Routes = [
   {
     path: 'rutina-entrenamiento',
     component: RutinaEntrenamientoComponent
+  },
+   {
+    path: 'progreso',
+    component: ProgresoClienteComponent,
   },
 
   // Wildcard debe ir al final
