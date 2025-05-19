@@ -1,0 +1,10 @@
+.charts-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  margin-bottom: 40px;
+}
