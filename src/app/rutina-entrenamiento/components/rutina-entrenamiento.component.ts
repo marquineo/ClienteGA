@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { RutinaEntrenamientoService } from '../rutina-entrenamiento-service.service';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -21,13 +21,14 @@ export class RutinaEntrenamientoComponent implements OnInit {
   rutinasFormArray!: FormArray;
   loading = false;
   rutinaIndexParaEliminar: number | null = null;
-  
+
 
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private rutinaService: RutinaEntrenamientoService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _route: Router,
   ) { }
 
   ngOnInit(): void {
@@ -37,18 +38,18 @@ export class RutinaEntrenamientoComponent implements OnInit {
   }
 
   // Obtener todas las rutinas del cliente
-getRutinas(): void {
-  this.rutinaService.getRutinaPorCliente(this.clienteId).subscribe(
-    (data) => {
-      this.rutinas = Array.isArray(data) ? data : [data];
-      this.rutinasOriginal = JSON.parse(JSON.stringify(this.rutinas)); // clon profundo
-      this.fillRutinasForm();
-    },
-    (error) => {
-      console.error('Error al obtener las rutinas:', error);
-    }
-  );
-}
+  getRutinas(): void {
+    this.rutinaService.getRutinaPorCliente(this.clienteId).subscribe(
+      (data) => {
+        this.rutinas = Array.isArray(data) ? data : [data];
+        this.rutinasOriginal = JSON.parse(JSON.stringify(this.rutinas)); // clon profundo
+        this.fillRutinasForm();
+      },
+      (error) => {
+        console.error('Error al obtener las rutinas:', error);
+      }
+    );
+  }
 
   // Rellenar el FormArray principal con cada rutina
   fillRutinasForm(): void {
@@ -122,22 +123,22 @@ getRutinas(): void {
     }
   }
   abrirModalEliminar(index: number) {
-  this.rutinaIndexParaEliminar = index;
-  // Abrir modal Bootstrap manualmente
-  const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal')!);
-  modal.show();
-}
-confirmarEliminar() {
-  if (this.rutinaIndexParaEliminar !== null) {
-    this.rutinas.splice(this.rutinaIndexParaEliminar, 1);
-    this.rutinaIndexParaEliminar = null;
-
-    this.eliminarRutinasBackend();
+    this.rutinaIndexParaEliminar = index;
+    // Abrir modal Bootstrap manualmente
+    const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal')!);
+    modal.show();
   }
-  const modalEl = document.getElementById('confirmDeleteModal');
-  const modal = bootstrap.Modal.getInstance(modalEl!);
-  modal?.hide();
-}
+  confirmarEliminar() {
+    if (this.rutinaIndexParaEliminar !== null) {
+      this.rutinas.splice(this.rutinaIndexParaEliminar, 1);
+      this.rutinaIndexParaEliminar = null;
+
+      this.eliminarRutinasBackend();
+    }
+    const modalEl = document.getElementById('confirmDeleteModal');
+    const modal = bootstrap.Modal.getInstance(modalEl!);
+    modal?.hide();
+  }
 
 
 
@@ -185,27 +186,31 @@ confirmarEliminar() {
   }
 
   detectarRutinasEliminadas(): any[] {
-  const nombresOriginales = this.rutinasOriginal.map(r => r.nombre);
-  const nombresActuales = this.rutinas.map(r => r.nombre);
+    const nombresOriginales = this.rutinasOriginal.map(r => r.nombre);
+    const nombresActuales = this.rutinas.map(r => r.nombre);
 
-  return nombresOriginales.filter(nombre => !nombresActuales.includes(nombre));
-}
+    return nombresOriginales.filter(nombre => !nombresActuales.includes(nombre));
+  }
 
-eliminarRutinasBackend() {
-  const nombresAEliminar = this.detectarRutinasEliminadas();
-  if (nombresAEliminar.length === 0) return;
+  eliminarRutinasBackend() {
+    const nombresAEliminar = this.detectarRutinasEliminadas();
+    if (nombresAEliminar.length === 0) return;
 
-  this.rutinaService.eliminarRutinas(nombresAEliminar,this.clienteId).subscribe({
-    next: () => {
-      console.log('Rutinas eliminadas correctamente');
-      // Actualizar rutinasOriginal tras la eliminación
-      this.rutinasOriginal = JSON.parse(JSON.stringify(this.rutinas));
-    },
-    error: (err) => {
-      console.error('Error al eliminar rutinas:', err);
-    }
-  });
-}
+    this.rutinaService.eliminarRutinas(nombresAEliminar, this.clienteId).subscribe({
+      next: () => {
+        console.log('Rutinas eliminadas correctamente');
+        // Actualizar rutinasOriginal tras la eliminación
+        this.rutinasOriginal = JSON.parse(JSON.stringify(this.rutinas));
+      },
+      error: (err) => {
+        console.error('Error al eliminar rutinas:', err);
+      }
+    });
+  }
+
+  goToDash() {
+    this._route.navigate(['/dashboard-entrenador']);
+  }
 
 
 

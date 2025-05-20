@@ -19,8 +19,9 @@
     <h3 class="mb-4">Atletas:</h3>
     <div id="cards" class="row row-cols-1 row-cols-md-4 g-3">
       <div class="col" *ngFor="let atleta of atletasFiltrados">
-        <div class="card h-100 bg-card border-0 text-light animate-card-hover">
-          <img [src]="atleta.fotoURL" class="card-img-top" alt="Imagen atleta">
+        <div class="card h-50 bg-card border-0 text-light animate-card-hover">
+<img [src]="atleta.fotoURL" class="card-img-top imagen-atleta" alt="Imagen atleta">
+
           <div class="card-body">
             <h5 class="card-title text-accent-red">{{ atleta.nombre }}</h5>
             <p class="card-text">Bloque {{ atleta.bloque }}º</p>

@@ -1,4 +1,5 @@
-<div class="container my-4">
+  <button class="btn btn-outline-warning mt-5 ms-5" (click)="goToDash()">Volver</button>
+<div class="container my-4"> 
   <h1>Rutinas del Atleta</h1>
   <button class="btn btn-danger mb-3" (click)="agregarRutina()">+ Añadir nueva rutina</button>
   <button class="btn btn-success mb-3 ms-2" (click)="guardarTodasRutinas()"><i class="fa-solid fa-floppy-disk"></i>
@@ -69,15 +70,7 @@
 
                   <div class="form-group">
                     <label>Día de la semana</label>
-                    <select class="form-control" formControlName="dia_semana">
-                      <option value="Lunes">Lunes</option>
-                      <option value="Martes">Martes</option>
-                      <option value="Miércoles">Miércoles</option>
-                      <option value="Jueves">Jueves</option>
-                      <option value="Viernes">Viernes</option>
-                      <option value="Sábado">Sábado</option>
-                      <option value="Domingo">Domingo</option>
-                    </select>
+                    <input type="date" class="form-control" formControlName="dia_semana">
                   </div>
 
                   <div class="form-group">
