@@ -1,50 +1,128 @@
-<div class="container">
-  <h1>Editar Rutina de Atleta</h1>
-  <form [formGroup]="rutinaForm" (ngSubmit)="guardarRutina()">
-    
-    <!-- Información de la rutina -->
-    <div class="form-group">
-      <label for="nombre">Nombre de la rutina</label>
-      <input type="text" id="nombre" formControlName="nombre" class="form-control">
-    </div>
+<div class="container my-4">
+  <h1>Rutinas del Atleta</h1>
+  <button class="btn btn-danger mb-3" (click)="agregarRutina()">+ Añadir nueva rutina</button>
+  <button class="btn btn-success mb-3 ms-2" (click)="guardarTodasRutinas()"><i class="fa-solid fa-floppy-disk"></i>
+    Guardar todas las rutinas</button>
 
-    <div class="form-group">
-      <label for="descripcion">Descripción</label>
-      <textarea id="descripcion" formControlName="descripcion" class="form-control"></textarea>
-    </div>
+  <div class="accordion" id="accordionRutinas">
+    <div class="accordion-item" *ngFor="let rutina of rutinas; let rutinaIndex = index">
+      <h2 class="accordion-header d-flex justify-content-between align-items-center" [id]="'heading' + rutinaIndex">
+        <button class="accordion-button collapsed flex-grow-1 text-start" type="button" data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#collapse' + rutinaIndex" aria-expanded="false"
+          [attr.aria-controls]="'collapse' + rutinaIndex">
+          {{ rutina.nombre }} ({{ rutina.duracion_semana }} semanas)
+        </button>
 
-    <div class="form-group">
-      <label for="duracion_semana">Duración (semana)</label>
-      <input type="number" id="duracion_semana" formControlName="duracion_semana" class="form-control">
-    </div>
+        <button type="button" class="btn btn-sm btn-danger ms-2" (click)="abrirModalEliminar(rutinaIndex)">
+          <i class="fa-solid fa-trash"></i>
+        </button>
 
-    <!-- Ejercicios -->
-    <div formArrayName="ejercicios" *ngFor="let ejercicio of rutinaForm.get('ejercicios').controls; let i = index">
-      <div [formGroupName]="i" class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Ejercicio {{ i + 1 }}</h5>
-          <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" formControlName="nombre" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="series">Series</label>
-            <input type="number" formControlName="series" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="repeticiones">Repeticiones</label>
-            <input type="number" formControlName="repeticiones" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="descanso">Descanso (segundos)</label>
-            <input type="number" formControlName="descanso" class="form-control">
-          </div>
-          <button type="button" (click)="eliminarEjercicio(i)" class="btn btn-danger">Eliminar ejercicio</button>
+      </h2>
+
+
+      <div [id]="'collapse' + rutinaIndex" class="accordion-collapse collapse"
+        [attr.aria-labelledby]="'heading' + rutinaIndex" data-bs-parent="#accordionRutinas">
+        <div class="accordion-body">
+          <form [formGroup]="getFormGroup(rutinaIndex)">
+            <!-- Información general de la rutina -->
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" class="form-control" formControlName="nombre">
+            </div>
+
+            <div class="form-group">
+              <label>Descripción</label>
+              <textarea class="form-control" formControlName="descripcion"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Duración (semanas)</label>
+              <input type="number" class="form-control" formControlName="duracion_semana">
+            </div>
+
+            <!-- Ejercicios -->
+            <div formArrayName="ejercicios">
+              <div *ngFor="let ejercicio of getEjerciciosControls(rutinaIndex); let i = index" [formGroupName]="i"
+                class="card my-3">
+                <div class="card-body">
+                  <h5>Ejercicio {{ i + 1 }}</h5>
+
+                  <div class="form-group">
+                    <label>Nombre del ejercicio</label>
+                    <input type="text" class="form-control" formControlName="nombre_ejercicio">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Series</label>
+                    <input type="number" class="form-control" formControlName="series">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Repeticiones</label>
+                    <input type="number" class="form-control" formControlName="repeticiones">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Descanso (segundos)</label>
+                    <input type="number" class="form-control" formControlName="descanso_segundos">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Día de la semana</label>
+                    <select class="form-control" formControlName="dia_semana">
+                      <option value="Lunes">Lunes</option>
+                      <option value="Martes">Martes</option>
+                      <option value="Miércoles">Miércoles</option>
+                      <option value="Jueves">Jueves</option>
+                      <option value="Viernes">Viernes</option>
+                      <option value="Sábado">Sábado</option>
+                      <option value="Domingo">Domingo</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Orden</label>
+                    <input type="number" class="form-control" formControlName="orden">
+                  </div>
+
+                  <div class="form-group">
+                    <label>RPE</label>
+                    <input type="number" class="form-control" formControlName="rpe" min="1" max="10">
+                  </div>
+
+                  <button type="button" class="btn btn-danger mt-2" (click)="eliminarEjercicio(rutinaIndex, i)"><i
+                      class="fa-solid fa-trash"></i> Eliminar
+                    ejercicio</button>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary my-2" (click)="agregarEjercicio(rutinaIndex)">+ Añadir
+              ejercicio</button>
+            <!--<button type="button" class="btn btn-outline-warning ms-2" (click)="guardarRutina(rutinaIndex)">Guardar
+              rutina</button>-->
+          </form>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <button type="button" (click)="agregarEjercicio()" class="btn btn-primary">Añadir ejercicio</button>
-    <button type="submit" [disabled]="loading" class="btn btn-outline-warning ms-2">Guardar rutina</button>
-  </form>
+<!-- Modal de confirmación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteLabel">Confirmar eliminación</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que quieres eliminar esta rutina?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmarEliminar()">Eliminar</button>
+      </div>
+    </div>
+  </div>
 </div>

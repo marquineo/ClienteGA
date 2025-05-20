@@ -7,13 +7,13 @@ import { Observable } from 'rxjs';
 })
 export class RutinaEntrenamientoService {
 
-  private apiUrl = 'http://localhost:8000/rutinas'; // Cambia la URL a la correcta
+  private apiUrl = 'http://localhost:8000/rutinas';
 
   constructor(private http: HttpClient) { }
 
   // Obtener la rutina de un atleta
   getRutinaPorCliente(clienteId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/cliente/${clienteId}`);
+    return this.http.get(`${this.apiUrl}/${clienteId}`);
   }
 
   // Actualizar rutina de un atleta
@@ -30,4 +30,9 @@ export class RutinaEntrenamientoService {
   eliminarEjercicio(clienteId: number, ejercicioId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/cliente/${clienteId}/ejercicio/${ejercicioId}`);
   }
+//  private apiUrl = 'http://localhost:8000/rutinas';
+  eliminarRutinas(nombreRutinas: string[],clienteId: number) {
+  return this.http.post(`${this.apiUrl}/clientes/${clienteId}/rutinas/eliminar`, { nombres: nombreRutinas });
+}
+
 }

@@ -13,7 +13,8 @@ interface Atleta {
   semana: number,
   peso: GLfloat,
   entrenamiento: string,
-  fotoURL: string
+  fotoURL: string,
+  usuario_id: number
 }
 @Component({
   selector: 'app-dashboard-entrenador',

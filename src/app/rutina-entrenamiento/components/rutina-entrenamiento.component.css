@@ -1,15 +1,14 @@
-.container {
-  margin-top: 20px;
+.accordion-button:focus {
+  box-shadow: 0 0 0 0.15rem rgba(255, 69, 0, 0.5); /* rojo-naranja semi-transparente */
+  outline: none; /* opcional, para quitar el outline predeterminado */
 }
 
-.card {
-  border-radius: 10px;
+/* También cuando está expandido (activo) */
+.accordion-button:not(.collapsed) {
+  background-color: #333; /* ejemplo para cambiar fondo cuando está abierto */
+  color: #ff4500; /* color del texto */
 }
 
-.card-body {
-  background-color: #f8f9fa;
-}
-
-.btn {
-  margin-top: 10px;
+.accordion-button:not(.collapsed)::after {
+  filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(10deg); /* opcional para cambiar color flecha */
 }

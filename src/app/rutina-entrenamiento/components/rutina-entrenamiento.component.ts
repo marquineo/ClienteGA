@@ -1,98 +1,168 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { RutinaEntrenamientoService } from '../rutina-entrenamiento-service.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import * as bootstrap from 'bootstrap';
+
+
 
 @Component({
   selector: 'app-rutina-entrenamiento',
-  imports: [RouterModule, ReactiveFormsModule, FormsModule],
+  imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule],
+
   templateUrl: './rutina-entrenamiento.component.html',
-  styleUrl: './rutina-entrenamiento.component.css'
+  styleUrls: ['./rutina-entrenamiento.component.css']
 })
 export class RutinaEntrenamientoComponent implements OnInit {
-
   clienteId: number = 0;
-  rutina: any[] = [];
-  rutinaForm!: FormGroup;
+  rutinas: any[] = [];
+  rutinasOriginal: any[] = [];
+  rutinasFormArray!: FormArray;
   loading = false;
+  rutinaIndexParaEliminar: number | null = null;
+  
+
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private rutinaService: RutinaEntrenamientoService,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    // Obtener el ID del cliente desde la URL
-    this.clienteId = +this.activatedRoute.snapshot.paramMap.get('clienteId')!;
-    this.getRutina();
-    this.createForm();
+    this.clienteId = +this.activatedRoute.snapshot.paramMap.get('id')!;
+    this.rutinasFormArray = this.fb.array([]);
+    this.getRutinas();
   }
 
-  // Crear el formulario de edición de rutina
-  createForm(): void {
-    this.rutinaForm = this.fb.group({
-      nombre: ['', Validators.required],
-      descripcion: ['', Validators.required],
-      duracion_semana: [1, [Validators.required, Validators.min(1)]],
-      ejercicios: this.fb.array([]) // Este es un formulario anidado para los ejercicios
+  // Obtener todas las rutinas del cliente
+getRutinas(): void {
+  this.rutinaService.getRutinaPorCliente(this.clienteId).subscribe(
+    (data) => {
+      this.rutinas = Array.isArray(data) ? data : [data];
+      this.rutinasOriginal = JSON.parse(JSON.stringify(this.rutinas)); // clon profundo
+      this.fillRutinasForm();
+    },
+    (error) => {
+      console.error('Error al obtener las rutinas:', error);
+    }
+  );
+}
+
+  // Rellenar el FormArray principal con cada rutina
+  fillRutinasForm(): void {
+    this.rutinas.forEach(rutina => {
+      const rutinaForm = this.fb.group({
+        nombre: [rutina.nombre, Validators.required],
+        descripcion: [rutina.descripcion, Validators.required],
+        duracion_semana: [rutina.duracion_semana, [Validators.required, Validators.min(1)]],
+        ejercicios: this.fb.array([])
+      });
+
+      const ejerciciosFormArray = rutinaForm.get('ejercicios') as FormArray;
+      rutina.ejercicios.forEach((ejercicio: any) => {
+        ejerciciosFormArray.push(this.fb.group({
+          nombre_ejercicio: [ejercicio.nombre_ejercicio, Validators.required],
+          series: [ejercicio.series, [Validators.required, Validators.min(1)]],
+          repeticiones: [ejercicio.repeticiones, [Validators.required, Validators.min(1)]],
+          descanso_segundos: [ejercicio.descanso_segundos, [Validators.required, Validators.min(1)]],
+          dia_semana: [ejercicio.dia_semana || 'Lunes', Validators.required],
+          orden: [ejercicio.orden || 1, Validators.required],
+          rpe: [ejercicio.rpe || 6, [Validators.required, Validators.min(1), Validators.max(10)]]
+        }));
+      });
+
+      this.rutinasFormArray.push(rutinaForm);
     });
   }
 
-  // Obtener la rutina del cliente desde la API
-  getRutina(): void {
-    this.rutinaService.getRutinaPorCliente(this.clienteId).subscribe(
-      (data) => {
-        this.rutina = data.rutina; // Asumimos que la respuesta contiene la rutina del cliente
-        this.fillRutinaForm();
-      },
-      (error) => {
-        console.error('Error al obtener la rutina:', error);
-      }
-    );
+  // Obtener controles del array de ejercicios para una rutina específica
+  getEjerciciosControls(rutinaIndex: number) {
+    return (this.rutinasFormArray.at(rutinaIndex).get('ejercicios') as FormArray).controls;
   }
 
-  // Rellenar el formulario con los datos de la rutina obtenida
-  fillRutinaForm(): void {
-    const ejercicioFormArray = this.rutina.map(ejercicio => this.fb.group({
-      nombre: [ejercicio.nombre, Validators.required],
-      series: [ejercicio.series, [Validators.required, Validators.min(1)]],
-      repeticiones: [ejercicio.repeticiones, [Validators.required, Validators.min(1)]],
-      descanso: [ejercicio.descanso, [Validators.required, Validators.min(1)]]
-    }));
-    
-    this.rutinaForm.setControl('ejercicios', this.fb.array(ejercicioFormArray));
-  }
-
-  // Añadir ejercicio al formulario
-  agregarEjercicio(): void {
-    const ejercicios = this.rutinaForm.get('ejercicios') as any;
+  // Agregar nuevo ejercicio a una rutina específica
+  agregarEjercicio(rutinaIndex: number): void {
+    const ejercicios = this.rutinasFormArray.at(rutinaIndex).get('ejercicios') as FormArray;
     ejercicios.push(this.fb.group({
-      nombre: ['', Validators.required],
+      nombre_ejercicio: ['', Validators.required],
       series: [1, [Validators.required, Validators.min(1)]],
       repeticiones: [1, [Validators.required, Validators.min(1)]],
-      descanso: [60, [Validators.required, Validators.min(1)]]
+      descanso_segundos: [60, [Validators.required, Validators.min(1)]],
+      dia_semana: ['Lunes', Validators.required],
+      orden: [1, Validators.required],
+      rpe: [6, [Validators.required, Validators.min(1), Validators.max(10)]]
     }));
   }
 
-  // Eliminar ejercicio del formulario
-  eliminarEjercicio(index: number): void {
-    const ejercicios = this.rutinaForm.get('ejercicios') as any;
-    ejercicios.removeAt(index);
+  agregarRutina(): void {
+    // Añadir rutina vacía al array de datos para sincronizar (puedes ajustar si usas ids)
+    this.rutinas.push({
+      id: null,            // id null porque es nueva
+      nombre: '',
+      descripcion: '',
+      duracion_semana: 1,
+      ejercicios: []
+    });
+
+    // Añadir rutina vacía al FormArray
+    this.rutinasFormArray.push(this.fb.group({
+      nombre: ['', Validators.required],
+      descripcion: ['', Validators.required],
+      duracion_semana: [1, [Validators.required, Validators.min(1)]],
+      ejercicios: this.fb.array([])
+    }));
   }
 
-  // Guardar los cambios en la rutina
-  guardarRutina(): void {
-    if (this.rutinaForm.invalid) {
-      console.log('Formulario inválido');
+  eliminarRutina(index: number) {
+    // Confirmar antes de eliminar, opcional
+    if (confirm('¿Seguro que quieres eliminar esta rutina?')) {//TODO modal de confirmacion
+      this.rutinas.splice(index, 1);
+    }
+  }
+  abrirModalEliminar(index: number) {
+  this.rutinaIndexParaEliminar = index;
+  // Abrir modal Bootstrap manualmente
+  const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal')!);
+  modal.show();
+}
+confirmarEliminar() {
+  if (this.rutinaIndexParaEliminar !== null) {
+    this.rutinas.splice(this.rutinaIndexParaEliminar, 1);
+    this.rutinaIndexParaEliminar = null;
+
+    this.eliminarRutinasBackend();
+  }
+  const modalEl = document.getElementById('confirmDeleteModal');
+  const modal = bootstrap.Modal.getInstance(modalEl!);
+  modal?.hide();
+}
+
+
+
+
+
+  // Eliminar ejercicio de una rutina
+  eliminarEjercicio(rutinaIndex: number, ejercicioIndex: number): void {
+    const ejercicios = this.rutinasFormArray.at(rutinaIndex).get('ejercicios') as FormArray;
+    ejercicios.removeAt(ejercicioIndex);
+  }
+
+  // Guardar una rutina individualmente
+  guardarRutina(rutinaIndex: number): void {
+    const rutinaForm = this.rutinasFormArray.at(rutinaIndex);
+    if (rutinaForm.invalid) {
+      console.log('Formulario inválido para rutina', rutinaIndex);
       return;
     }
 
     this.loading = true;
-    const rutina = this.rutinaForm.value;
-    
-    this.rutinaService.actualizarRutina(this.clienteId, rutina).subscribe(
+    const rutinaData = rutinaForm.value;
+    const rutinaId = this.rutinas[rutinaIndex].id;
+    console.log(rutinaData);
+
+    this.rutinaService.actualizarRutina(this.clienteId, rutinaData).subscribe(
       (response) => {
         console.log('Rutina actualizada:', response);
         this.loading = false;
@@ -103,4 +173,40 @@ export class RutinaEntrenamientoComponent implements OnInit {
       }
     );
   }
+  getFormGroup(index: number): FormGroup {
+    return this.rutinasFormArray.at(index) as FormGroup;
+  }
+
+  guardarTodasRutinas() {
+    for (let i = 0; i < this.rutinas.length; i++) {
+      console.log(i);
+      this.guardarRutina(i);
+    }
+  }
+
+  detectarRutinasEliminadas(): any[] {
+  const nombresOriginales = this.rutinasOriginal.map(r => r.nombre);
+  const nombresActuales = this.rutinas.map(r => r.nombre);
+
+  return nombresOriginales.filter(nombre => !nombresActuales.includes(nombre));
+}
+
+eliminarRutinasBackend() {
+  const nombresAEliminar = this.detectarRutinasEliminadas();
+  if (nombresAEliminar.length === 0) return;
+
+  this.rutinaService.eliminarRutinas(nombresAEliminar,this.clienteId).subscribe({
+    next: () => {
+      console.log('Rutinas eliminadas correctamente');
+      // Actualizar rutinasOriginal tras la eliminación
+      this.rutinasOriginal = JSON.parse(JSON.stringify(this.rutinas));
+    },
+    error: (err) => {
+      console.error('Error al eliminar rutinas:', err);
+    }
+  });
+}
+
+
+
 }

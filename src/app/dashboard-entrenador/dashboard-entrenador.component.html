@@ -5,7 +5,7 @@
     <div class="d-flex flex-column align-items-end">
       <h2 class="mb-2">Panel de {{ nombreEntrenador }}</h2>
       <button class="btn btn-outline-danger" [routerLink]="['/perfil-entrenador']">Editar perfil de
-        entrenador</button><!--TODO sigueinte a hacer? formulario para editar perfil de entrenador-->
+        entrenador</button>
     </div>
   </div>
   <!-- Filtro por nombre -->
@@ -28,7 +28,7 @@
             <p class="card-text">Peso {{ atleta.peso }}kg</p>
             <p class="card-text">Entrenamiento de hoy: {{ atleta.entrenamiento }}</p>
             <button class="btn btn-danger w-100 mt-2">Gestionar atleta</button>
-            <button class="btn btn-outline-warning w-100 mt-2" [routerLink]="['/rutina-entrenamiento']">Editar Entrenamiento</button>
+            <button class="btn btn-outline-warning w-100 mt-2" [routerLink]="['/rutina-entrenamiento',atleta.usuario_id]">Editar Entrenamiento</button>
           </div>
         </div>
       </div>

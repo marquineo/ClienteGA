@@ -38,6 +38,10 @@ export const routes: Routes = [
     path: 'rutina-entrenamiento',
     component: RutinaEntrenamientoComponent
   },
+    {
+    path: 'rutina-entrenamiento/:id',
+    component: RutinaEntrenamientoComponent
+  },
    {
     path: 'progreso',
     component: ProgresoClienteComponent,
