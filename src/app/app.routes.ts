@@ -5,6 +5,8 @@ import { NewAtletaComponent } from './new-atleta/new-atleta.component';
 import { PerfilEntrenadorComponent } from './perfil-entrenador/perfil-entrenador.component';
 import { RutinaEntrenamientoComponent } from './rutina-entrenamiento/components/rutina-entrenamiento.component';
 import { ProgresoClienteComponent } from './progreso-cliente/component/progreso-cliente.component';
+import { ModAtletaComponent } from './mod-atleta/mod-atleta.component';
+import { DashboardClienteComponent } from './dashboard-cliente/dashboard-cliente.component';
 
 export const routes: Routes = [
   // Login
@@ -23,10 +25,20 @@ export const routes: Routes = [
     path: 'dashboard-entrenador',
     component: DashboardEntrenadorComponent
   },
+    // Dashboard Cliente
+  {
+    path: 'dashboard-cliente',
+    component: DashboardClienteComponent
+  },
   // Formulario Atletas
   {
     path: 'form-atletas',
     component: NewAtletaComponent
+  },
+    // Formulario Atletas modificar
+  {
+    path: 'mod-atletas/:id',
+    component: ModAtletaComponent
   },
   // Perfil entrenador
   {

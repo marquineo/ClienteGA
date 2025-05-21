@@ -5,12 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { StoicQuoteService } from '../services/stoic-quotesService';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { RouterModule } from '@angular/router';
+import { RutinaEntrenamientoService } from '../rutina-entrenamiento/rutina-entrenamiento-service.service';
 
 
 interface Atleta {
   nombre: string,
-  bloque: number,
-  semana: number,
+  bloque: string,
   peso: GLfloat,
   entrenamiento: string,
   fotoURL: string,
@@ -41,7 +41,7 @@ export class DashboardEntrenadorComponent implements OnInit {
   nombreEntrenador = sessionStorage.getItem('username');
   id = Number(sessionStorage.getItem('id'));
 
-  constructor(private __stoicQuoteService: StoicQuoteService, private __entrenadorService: EntrenadorService) { }
+  constructor(private __stoicQuoteService: StoicQuoteService, private __entrenadorService: EntrenadorService, private __rutinasService: RutinaEntrenamientoService) { }
 
   ngOnInit(): void {
     console.log("entranodo en dashboard-entrenador");
@@ -70,17 +70,53 @@ export class DashboardEntrenadorComponent implements OnInit {
     }
   }
 
-  getAtletas() {
-    this.__entrenadorService.getClientes(this.id).subscribe({
-      next: (response) => {
-        console.log("clientes:", response);
-        this.atletas = response;
-        this.filtrarAtletas();
-      },
-      error: (error) => {
-        console.log("error al obtener clientes", error);
-      }
-    })
-  }
+getAtletas() {
+  const hoy = new Date().toISOString().split('T')[0]; // "2025-05-21"
+  console.log("Hoy es:", hoy);
+
+  this.__entrenadorService.getClientes(this.id).subscribe({
+    next: (clientes) => {
+      this.atletas = clientes;
+
+      this.atletas.forEach((atleta, index) => {
+        this.__rutinasService.getRutinasConEjercicios(atleta.usuario_id).subscribe({
+          next: (rutinas) => {
+            if (rutinas.length > 0) {
+              const rutina = rutinas[0];
+              this.atletas[index].bloque = rutina.nombre;
+
+              // Filtrar ejercicios solo para hoy
+              const ejerciciosDeHoy = rutina.ejercicios.filter((e: any) => {
+                const fechaEjercicio = e.dia_semana;
+                return fechaEjercicio === hoy;
+              });
+
+              if (ejerciciosDeHoy.length > 0) {
+                const nombresEjercicios = ejerciciosDeHoy.map((e: any) => e.nombre_ejercicio);
+                this.atletas[index].entrenamiento = nombresEjercicios.join(', ');
+              } else {
+                this.atletas[index].entrenamiento = 'Descanso';
+              }
+
+            } else {
+              this.atletas[index].bloque = 'Offseason';
+              this.atletas[index].entrenamiento = 'Descanso';
+            }
+
+            this.filtrarAtletas(); // Aplica el filtro si hay
+          },
+          error: (e) => {
+            console.error(`Error cargando rutina del cliente ${atleta.usuario_id}`, e);
+          }
+        });
+      });
+    },
+    error: (error) => {
+      console.log("error al obtener clientes", error);
+    }
+  });
+}
+
+
 
 }

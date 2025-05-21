@@ -97,13 +97,6 @@ export class PerfilEntrenadorComponent {
     this.__entrenadorService.getEntrenador(this.id).subscribe({
       next: (response) => {
         console.log("response", response);
-        /*this.entrenadorAct.name = response.nombre;
-        this.entrenadorAct.creado_en = response.creado_en;
-        this.entrenadorAct.especialidad = response.especialidad;
-        this.entrenadorAct.experiencia = response.experiencia;
-        this.entrenadorAct.password = response.contrasenya;
-        this.entrenadorAct.email = response.email;
-        this.entrenadorAct.fotoURL = response.fotoURL;*/
         this.trainerForm.patchValue({
           name: response.nombre,
           email: response.email,

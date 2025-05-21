@@ -82,7 +82,7 @@ export class LoginComponent {
             } else if (response.rol == "entrenador") {//Entrenador
               this._route.navigate(['/dashboard-entrenador']);
               console.log("entrenador");
-            } else if (response.rol == "admin") {//Cliente
+            } else if (response.rol == "cliente") {//Cliente
               this._route.navigate(['/dashboard-cliente']);
               console.log("cliente");
             } else {

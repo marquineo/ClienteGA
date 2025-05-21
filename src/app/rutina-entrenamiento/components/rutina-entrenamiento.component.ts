@@ -35,6 +35,12 @@ export class RutinaEntrenamientoComponent implements OnInit {
     this.clienteId = +this.activatedRoute.snapshot.paramMap.get('id')!;
     this.rutinasFormArray = this.fb.array([]);
     this.getRutinas();
+    setTimeout(() => {
+      const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      tooltipTriggerList.forEach((el) => {
+        new bootstrap.Tooltip(el);
+      });
+    }, 0);
   }
 
   // Obtener todas las rutinas del cliente
@@ -139,10 +145,6 @@ export class RutinaEntrenamientoComponent implements OnInit {
     const modal = bootstrap.Modal.getInstance(modalEl!);
     modal?.hide();
   }
-
-
-
-
 
   // Eliminar ejercicio de una rutina
   eliminarEjercicio(rutinaIndex: number, ejercicioIndex: number): void {

@@ -1,5 +1,5 @@
-  <button class="btn btn-outline-warning mt-5 ms-5" (click)="goToDash()">Volver</button>
-<div class="container my-4"> 
+<button class="btn btn-outline-warning mt-5 ms-5" (click)="goToDash()">Volver</button>
+<div class="container my-4">
   <h1>Rutinas del Atleta</h1>
   <button class="btn btn-danger mb-3" (click)="agregarRutina()">+ Añadir nueva rutina</button>
   <button class="btn btn-success mb-3 ms-2" (click)="guardarTodasRutinas()"><i class="fa-solid fa-floppy-disk"></i>
@@ -78,8 +78,15 @@
                     <input type="number" class="form-control" formControlName="orden">
                   </div>
 
-                  <div class="form-group">
-                    <label>RPE</label>
+                  <div class="form-group position-relative">
+                    <label>
+                      RPE
+                      <i class="fa-regular fa-circle-question" data-bs-toggle="tooltip"
+                        data-bs-placement="right"
+                        title="RPE indica el esfuerzo percibido del 1 al 10, donde 10 significa haber llegado al fallo muscular, 9 es 'podria haber hecho otra repeticion', 8 es 'podria haber hecho 2 repeticiones mas'...">
+                      </i>
+
+                    </label>
                     <input type="number" class="form-control" formControlName="rpe" min="1" max="10">
                   </div>
 
@@ -92,8 +99,6 @@
 
             <button type="button" class="btn btn-primary my-2" (click)="agregarEjercicio(rutinaIndex)">+ Añadir
               ejercicio</button>
-            <!--<button type="button" class="btn btn-outline-warning ms-2" (click)="guardarRutina(rutinaIndex)">Guardar
-              rutina</button>-->
           </form>
         </div>
       </div>
