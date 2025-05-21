@@ -1,0 +1,24 @@
+/* dashboard-cliente.component.css */
+.cal-month-view .cal-day-cell {
+  min-height: 80px;
+}
+
+.cal-month-view .cal-day-number {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.cal-month-view .cal-day-cell.cal-today {
+  background-color: #e8f4f8;
+}
+
+.cal-month-view .cal-header {
+  font-weight: bold;
+}
+
+.cal-event {
+  color: white !important;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 0.85em;
+}

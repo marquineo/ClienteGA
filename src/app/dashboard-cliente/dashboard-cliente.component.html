@@ -2,12 +2,22 @@
 
   <h2>Tu entrenamiento - {{ fechaSeleccionada }}</h2>
 
-  <div class="mb-3">
+  <!--<div class="mb-3">
     <label for="fecha" class="form-label">Selecciona una fecha</label>
     <input id="fecha" type="date" class="form-control" [value]="fechaSeleccionada" (change)="onFechaSeleccionada($event)">
-  </div>
+  </div>-->
+<mwl-calendar-month-view
+  [viewDate]="viewDate"
+  [events]="calendarEvents"
+  [activeDayIsOpen]="true"
+  (dayClicked)="onDayClicked($event)">
+</mwl-calendar-month-view>
 
-  <div *ngIf="entrenamientoDelDia; else sinEntrenamiento">
+
+
+<div *ngIf="entrenamientoDelDia.length > 0; else sinEntrenamiento">
+  <div *ngFor="let rutina of entrenamientoDelDia">
+    <h5>{{ rutina.nombre }}</h5>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -18,15 +28,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let e of entrenamientoDelDia.ejercicios">
-          <td>{{ e.nombre }}</td>
+        <tr *ngFor="let e of rutina.ejercicios">
+          <td>{{ e.nombre_ejercicio }}</td>
           <td>{{ e.series }}</td>
           <td>{{ e.repeticiones }}</td>
-          <td>{{ e.descanso }}</td>
+          <td>{{ e.descanso_segundos }}</td>
         </tr>
       </tbody>
     </table>
   </div>
+</div>
+
+<ng-template #sinEntrenamiento>
+  <p>No hay entrenamiento para esta fecha.</p>
+</ng-template>
+
   <ng-template #sinEntrenamiento>
     <p>No hay entrenamiento asignado para esta fecha.</p>
   </ng-template>

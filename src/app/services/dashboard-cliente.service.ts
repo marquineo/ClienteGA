@@ -26,13 +26,13 @@ export interface RegistroProgreso {
 export class DashboardClienteService {
 
   //apiUrl = 'https://api.gymbroanalytics.xyz/'; //URL Producción
-  apiUrl = "http://127.0.0.1:8000/";  // URL base de la API LOCAL
+  apiUrl = "http://127.0.0.1:8000";  // URL base de la API LOCAL
 
   constructor(private http: HttpClient) {} // ✅ Inyección correcta
 
   // Obtener entrenamiento del día
-  getEntrenamientoPorFecha(clienteId: number, fecha: string): Observable<EntrenamientoDia> {
-    return this.http.get<EntrenamientoDia>(`${this.apiUrl}/entrenamientos/${clienteId}?fecha=${fecha}`);
+  getEntrenamientoPorFecha(clienteId: number, fecha: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/rutinas/entrenamientos/${clienteId}?fecha=${fecha}`);
   }
 
   // Obtener registros de progreso
@@ -53,6 +53,10 @@ getRegistrosProgreso(clienteId: number): Observable<RegistroProgreso[]> {
   );
 }
 
+  getFechasConEntrenamiento(clienteId: number): Observable<string[]> {
+    // Llamamos a la API que devuelve las fechas con entrenamientos (solo un array de strings fecha ISO)
+    return this.http.get<any[]>(`${this.apiUrl}/rutinas/fechas-con-entrenamiento/${clienteId}`);
+  }
 
   // Guardar nuevo progreso
   guardarProgreso(progreso: any): Observable<any> {

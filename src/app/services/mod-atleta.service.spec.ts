@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ModAtletaService } from './services/mod-atleta.service';
+import { ModAtletaService } from './mod-atleta.service';
 
 describe('ModAtletaService', () => {
   let service: ModAtletaService;

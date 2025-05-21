@@ -5,18 +5,30 @@ import { DashboardClienteService } from '../services/dashboard-cliente.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CalendarA11y, CalendarDateFormatter, CalendarEvent, CalendarEventTitleFormatter, CalendarModule, CalendarUtils, DateAdapter } from 'angular-calendar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-interface Ejercicio {
+export interface RutinaConEjercicios {
+  id: number;
   nombre: string;
-  series: number;
-  repeticiones: number;
-  descanso: number; // segundos
-}
-
-interface EntrenamientoDia {
-  fecha: string; // yyyy-mm-dd
+  descripcion: string;
+  cliente_id: number;
+  entrenador_id: number | null;
+  duracion_semana: number;
   ejercicios: Ejercicio[];
 }
+
+export interface Ejercicio {
+  id: number;
+  nombre_ejercicio: string;
+  dia_semana: string;
+  series: number;
+  repeticiones: number;
+  rpe: number;
+  orden: number;
+  descanso_segundos: number;
+}
+
 
 interface RegistroProgreso {
   id: number;
@@ -28,13 +40,20 @@ interface RegistroProgreso {
   tiempoEntrenamiento: number;
   creadoEn: string;
 }
-
 @Component({
   selector: 'app-dashboard-cliente',
+  standalone: true,
   templateUrl: './dashboard-cliente.component.html',
-    imports: [CommonModule, FormsModule, RouterModule,ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
+    CalendarModule
+  ],
+  providers:[CalendarUtils,CalendarA11y,CalendarDateFormatter,CalendarEventTitleFormatter],
   styleUrls: ['./dashboard-cliente.component.css'],
-    animations: [
+  animations: [
     trigger('fadeInOut', [
       state('visible', style({ opacity: 1 })),
       state('hidden', style({ opacity: 0 })),
@@ -43,11 +62,15 @@ interface RegistroProgreso {
     ])
   ]
 })
+
 export class DashboardClienteComponent implements OnInit {
   clienteId: number = 0; // Lo obtendrás del login o sesión
   fechaSeleccionada: string = new Date().toISOString().substring(0, 10);
-  entrenamientoDelDia: EntrenamientoDia | null = null;
+  entrenamientoDelDia: RutinaConEjercicios[] = [];
   registrosProgreso: RegistroProgreso[] = [];
+  calendarEvents: CalendarEvent[] = [];
+  viewDate: Date = new Date(); // fecha actual
+
 
   progresoForm: FormGroup;
   mostrandoFormulario = false;
@@ -55,7 +78,7 @@ export class DashboardClienteComponent implements OnInit {
   constructor(
     private __dashboardService: DashboardClienteService,
     private fb: FormBuilder,
-    private toastr: CustomToastrService
+    private toastr: CustomToastrService,
   ) {
     this.progresoForm = this.fb.group({
       fecha: [this.fechaSeleccionada, Validators.required],
@@ -65,20 +88,22 @@ export class DashboardClienteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // TODO: obtener clienteId del token o sesión
     this.clienteId = Number(sessionStorage.getItem('id')) || 0;
-
+    this.cargarFechasConEntrenamiento();
     this.cargarEntrenamiento(this.fechaSeleccionada);
     this.cargarRegistrosProgreso();
+      console.log('Fecha actual:', this.viewDate); // ¿Muestra "2024-05-21"?
   }
-
+//https://stackoverflow.com/questions/78240580/how-can-i-use-angular-calendar-in-angular-17
   cargarEntrenamiento(fecha: string) {
     this.__dashboardService.getEntrenamientoPorFecha(this.clienteId, fecha).subscribe({
-      next: (data: EntrenamientoDia | null) => {
+      next: (data: RutinaConEjercicios[]) => {
+        console.log("Entrenamiento para fecha", fecha, data);
         this.entrenamientoDelDia = data;
       },
       error: () => {
-        this.entrenamientoDelDia = null;
+        console.warn("No se encontró entrenamiento para la fecha", fecha);
+        this.entrenamientoDelDia = [];
       }
     });
   }
@@ -136,4 +161,22 @@ export class DashboardClienteComponent implements OnInit {
       }
     });
   }
+
+  cargarFechasConEntrenamiento() {
+    this.__dashboardService.getFechasConEntrenamiento(this.clienteId).subscribe((fechas: string[]) => {
+      this.calendarEvents = fechas.map(fecha => ({
+        start: new Date(fecha),
+        title: 'Entrenamiento',
+        allDay: true,
+        color: { primary: '#ad2121', secondary: '#FAE3E3' }
+      }));
+
+    });
+  }
+onDayClicked({ day }: { day: { date: Date; events: CalendarEvent[] }, sourceEvent: MouseEvent | KeyboardEvent }): void {
+  const fechaStr = day.date.toISOString().split('T')[0];
+  this.viewDate = day.date;
+  this.fechaSeleccionada = fechaStr;
+  this.cargarEntrenamiento(fechaStr);
+}
 }

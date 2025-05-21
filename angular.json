@@ -35,7 +35,8 @@
             "styles": [
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/styles.css",
-              "src/assets/css/custom.css"
+              "src/assets/css/custom.css",
+              "node_modules/angular-calendar/css/angular-calendar.css"
             ],
             "scripts": []
           },
