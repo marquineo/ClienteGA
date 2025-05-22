@@ -56,6 +56,7 @@ export class ModAtletaComponent {
   ngOnInit(): void {
     this.fetchQuote();
     this.clienteId = +this.activatedRoute.snapshot.paramMap.get('id')!;
+    console.log("clienteID",this.clienteId);
     this.getAtleta();
   }
 
@@ -185,5 +186,8 @@ export class ModAtletaComponent {
       }
     });
   }
+  logoClick(){
+  this.router.navigate(["/dashboard-entrenador"]);
+}
 
 }

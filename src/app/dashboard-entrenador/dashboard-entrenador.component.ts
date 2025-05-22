@@ -4,7 +4,7 @@ import { EntrenadorService } from '../services/entrenador.service';
 import { FormsModule } from '@angular/forms';
 import { StoicQuoteService } from '../services/stoic-quotesService';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { RutinaEntrenamientoService } from '../rutina-entrenamiento/rutina-entrenamiento-service.service';
 
 
@@ -41,7 +41,7 @@ export class DashboardEntrenadorComponent implements OnInit {
   nombreEntrenador = sessionStorage.getItem('username');
   id = Number(sessionStorage.getItem('id'));
 
-  constructor(private __stoicQuoteService: StoicQuoteService, private __entrenadorService: EntrenadorService, private __rutinasService: RutinaEntrenamientoService) { }
+  constructor(private __stoicQuoteService: StoicQuoteService, private __entrenadorService: EntrenadorService, private __rutinasService: RutinaEntrenamientoService,    private router: Router,) { }
 
   ngOnInit(): void {
     console.log("entranodo en dashboard-entrenador");
@@ -116,7 +116,9 @@ getAtletas() {
     }
   });
 }
-
+logoClick(){
+  this.router.navigate(["/dashboard-entrenador"]);
+}
 
 
 }

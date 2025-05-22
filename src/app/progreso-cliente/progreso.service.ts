@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProgresoService {
-  private apiUrl = 'http://localhost:8000/api/progreso';
+  private apiUrl = 'http://localhost:8000/progresos';
 
   constructor(private http: HttpClient) { }
 
-  getProgreso(clienteId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/${clienteId}`);
+  getProgresos(clienteId: number) {
+    return this.http.get<any[]>(`${this.apiUrl}/clientes/${clienteId}/progresos`);
   }
 }

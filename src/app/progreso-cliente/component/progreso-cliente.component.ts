@@ -1,124 +1,120 @@
-import { Component } from '@angular/core';
+// src/app/progreso-cliente/progreso-cliente.component.ts
+
+import { Component, OnInit } from '@angular/core';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { CommonModule } from '@angular/common';
 import { NgChartsModule } from 'ng2-charts';
+import { ProgresoService } from '../progreso.service';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-progreso-cliente',
   standalone: true,
-  imports: [CommonModule, NgChartsModule],
+  imports: [CommonModule, NgChartsModule, RouterModule],
   templateUrl: './progreso-cliente.component.html',
   styleUrls: ['./progreso-cliente.component.css']
 })
-export class ProgresoClienteComponent {
+export class ProgresoClienteComponent implements OnInit {
+  clienteId = 0;
+  rol = sessionStorage.getItem("rol");
 
-  // Opcional: configuración general para todos los gráficos
-  public lineChartOptions: ChartConfiguration['options'] = {
+  lineChartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    plugins: {
-      legend: {
-        display: true,
-        position: 'top',
-      }
+    plugins: { legend: { display: true, position: 'top' } }
+  };
+  // radarChartData y tipo
+  radarChartData: ChartConfiguration<'radar'>['data'] = {
+    labels: ['Peso (kg)', 'Grasa Corporal (%)'],
+    datasets: []
+  };
+  radarChartType: ChartType = 'radar';
+
+
+  // Gráficos
+  lineChartDataPeso: ChartConfiguration<'line'>['data'] = { labels: [], datasets: [] };
+  lineChartDataGrasa: ChartConfiguration<'line'>['data'] = { labels: [], datasets: [] };
+  barChartData: ChartConfiguration<'bar'>['data'] = { labels: [], datasets: [] };
+
+  // Tipos
+  lineChartType: ChartType = 'line';
+  barChartType: ChartType = 'bar';
+
+  constructor(
+    private __progresoService: ProgresoService,
+    private activatedRoute: ActivatedRoute,
+    private route: Router,
+  ) { }
+
+  ngOnInit(): void {
+    this.clienteId = Number(sessionStorage.getItem('id')) || 0;
+    if (this.rol == "entrenador") this.clienteId = +this.activatedRoute.snapshot.paramMap.get('id')!;
+    this.cargarProgresos();
+  }
+
+  cargarProgresos() {
+    console.log("clienteID", this.clienteId);
+    this.__progresoService.getProgresos(this.clienteId).subscribe(progresos => {
+      console.log("progresos", progresos);
+      const fechas = progresos.map(p => p.fecha);
+      const pesos = progresos.map(p => p.peso);
+      const grasas = progresos.map(p => p.grasa_corporal);
+
+      this.lineChartDataPeso = {
+        labels: fechas,
+        datasets: [{
+          data: pesos,
+          label: 'Peso (kg)',
+          fill: false,
+          tension: 0.4,
+          borderColor: 'blue',
+          backgroundColor: 'blue'
+        }]
+      };
+
+      this.lineChartDataGrasa = {
+        labels: fechas,
+        datasets: [{
+          data: grasas,
+          label: 'Grasa Corporal (%)',
+          fill: false,
+          tension: 0.4,
+          borderColor: 'red',
+          backgroundColor: 'red'
+        }]
+      };
+
+      this.barChartData = {
+        labels: fechas,
+        datasets: [
+          { label: 'Peso', data: pesos, backgroundColor: 'blue' },
+          { label: 'Grasa', data: grasas, backgroundColor: 'red' }
+        ]
+      };
+      this.radarChartData = {
+        labels: fechas,
+        datasets: [{
+          label: 'Peso (kg)',
+          data: pesos,
+          fill: true,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)'
+        }, {
+          label: 'Grasa Corporal (%)',
+          data: grasas,
+          fill: true,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)'
+        }]
+      };
+    });
+  }
+
+  logoClick() {
+    if (this.rol == "entrenador") {
+      this.route.navigate(["/dashboard-entrenador"]);
+    } else {
+      this.route.navigate(["/dashboard-cliente"]);
     }
-  };
 
-  // Gráfico de línea – Peso
-  public lineChartDataPeso: ChartConfiguration<'line'>['data'] = {
-    labels: ['2025-05-01', '2025-05-08', '2025-05-15'],
-    datasets: [
-      {
-        data: [70, 68.5, 67.9],
-        label: 'Peso (kg)',
-        fill: false,
-        tension: 0.4,
-        borderColor: 'blue',
-        backgroundColor: 'blue'
-      }
-    ]
-  };
-  public lineChartType: ChartType = 'line';
-
-  // Gráfico de línea – Grasa corporal
-  public lineChartDataGrasa: ChartConfiguration<'line'>['data'] = {
-    labels: ['2025-05-01', '2025-05-08', '2025-05-15'],
-    datasets: [
-      {
-        data: [20, 19, 18.5],
-        label: 'Grasa Corporal (%)',
-        fill: false,
-        tension: 0.4,
-        borderColor: 'red',
-        backgroundColor: 'red'
-      }
-    ]
-  };
-
-  // Gráfico de barras
-  public barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Mayo 1', 'Mayo 8', 'Mayo 15'],
-    datasets: [
-      {
-        label: 'Peso',
-        data: [70, 68.5, 67.9],
-        backgroundColor: 'blue'
-      },
-      {
-        label: 'Grasa',
-        data: [20, 19, 18.5],
-        backgroundColor: 'red'
-      }
-    ]
-  };
-  public barChartType: ChartType = 'bar';
-
-  // Gráfico Doughnut
-  public doughnutChartData: ChartConfiguration<'doughnut'>['data'] = {
-    labels: ['Piernas', 'Pecho', 'Espalda', 'Brazos'],
-    datasets: [
-      {
-        data: [30, 25, 25, 20],
-        backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9'],
-      }
-    ]
-  };
-  public doughnutChartType: ChartType = 'doughnut';
-
-  // Gráfico Radar
-  public radarChartData: ChartConfiguration<'radar'>['data'] = {
-    labels: ['Fuerza', 'Resistencia', 'Velocidad', 'Movilidad', 'Potencia'],
-    datasets: [
-      {
-        label: 'Antes',
-        data: [60, 65, 70, 50, 55],
-        fill: true,
-        backgroundColor: 'rgba(0,123,255,0.3)',
-        borderColor: 'blue'
-      },
-      {
-        label: 'Ahora',
-        data: [75, 70, 80, 65, 60],
-        fill: true,
-        backgroundColor: 'rgba(40,167,69,0.3)',
-        borderColor: 'green'
-      }
-    ]
-  };
-  public radarChartType: ChartType = 'radar';
-
-  // Gráfico Scatter
-  public scatterChartData: ChartConfiguration<'scatter'>['data'] = {
-    datasets: [
-      {
-        label: 'Peso vs Grasa',
-        data: [
-          { x: 70, y: 20 },
-          { x: 68.5, y: 19 },
-          { x: 67.9, y: 18.5 },
-        ],
-        backgroundColor: 'purple'
-      }
-    ]
-  };
-  public scatterChartType: ChartType = 'scatter';
+  }
 }

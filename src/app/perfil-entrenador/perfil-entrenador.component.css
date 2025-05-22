@@ -13,3 +13,10 @@
   height: 100%;
   object-fit: cover;
 }
+.logo{
+background-image: url('/assets/logoGA(sinFondo).png');
+background-size: contain;
+background-repeat: no-repeat;
+height: 15vh;
+width: 15vh;
+}

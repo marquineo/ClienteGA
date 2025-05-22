@@ -28,7 +28,7 @@ export class DashboardClienteService {
   //apiUrl = 'https://api.gymbroanalytics.xyz/'; //URL Producción
   apiUrl = "http://127.0.0.1:8000";  // URL base de la API LOCAL
 
-  constructor(private http: HttpClient) {} // ✅ Inyección correcta
+  constructor(private http: HttpClient) { } // ✅ Inyección correcta
 
   // Obtener entrenamiento del día
   getEntrenamientoPorFecha(clienteId: number, fecha: string): Observable<any> {
@@ -36,22 +36,22 @@ export class DashboardClienteService {
   }
 
   // Obtener registros de progreso
-getRegistrosProgreso(clienteId: number): Observable<RegistroProgreso[]> {
-  return this.http.get<any[]>(`${this.apiUrl}/progresos/${clienteId}`).pipe(
-    map(data =>
-      data.map(item => ({
-        id: item.id,
-        clienteId: item.cliente_id,
-        fecha: item.fecha,
-        peso: item.peso,
-        grasaCorporal: item.grasa_corporal,
-        repeticiones: item.repeticiones,
-        tiempoEntrenamiento: item.tiempo_entrenamiento,
-        creadoEn: item.creado_en
-      }))
-    )
-  );
-}
+  getRegistrosProgreso(clienteId: number): Observable<RegistroProgreso[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/progresos/${clienteId}`).pipe(
+      map(data =>
+        data.map(item => ({
+          id: item.id,
+          clienteId: item.cliente_id,
+          fecha: item.fecha,
+          peso: item.peso,
+          grasaCorporal: item.grasa_corporal,
+          repeticiones: item.repeticiones,
+          tiempoEntrenamiento: item.tiempo_entrenamiento,
+          creadoEn: item.creado_en
+        }))
+      )
+    );
+  }
 
   getFechasConEntrenamiento(clienteId: number): Observable<string[]> {
     // Llamamos a la API que devuelve las fechas con entrenamientos (solo un array de strings fecha ISO)
@@ -59,7 +59,11 @@ getRegistrosProgreso(clienteId: number): Observable<RegistroProgreso[]> {
   }
 
   // Guardar nuevo progreso
-  guardarProgreso(progreso: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/progresos/guardar`, progreso);
+  guardarProgreso(progreso: any, clienteId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/progresos/guardar/${clienteId}`, progreso);
+  }
+
+  deleteProgreso(id:number):Observable<any>{
+    return this.http.delete(`${this.apiUrl}/progresos/eliminar/${id}`);
   }
 }

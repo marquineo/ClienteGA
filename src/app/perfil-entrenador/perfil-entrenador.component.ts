@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { StoicQuoteService } from '../services/stoic-quotesService';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EntrenadorService } from '../services/entrenador.service';
 import { PerfilEntrenadorService } from '../services/perfil-entrenador.service';
 import { subscribeOn } from 'rxjs';
+import { CustomToastrService } from '../services/custom-toastr.service';
 
 interface Entrenador {
   name: string,
@@ -42,7 +43,13 @@ export class PerfilEntrenadorComponent {
   trainerForm!: FormGroup;
   selectedFile: File | null = null;
 
-  constructor(private __stoicQuoteService: StoicQuoteService, private fb: FormBuilder, private __entrenadorService: EntrenadorService, private __perfilEntrenadorService: PerfilEntrenadorService) { }
+  constructor(private __stoicQuoteService: StoicQuoteService,
+    private fb: FormBuilder,
+    private __entrenadorService: EntrenadorService,
+    private __perfilEntrenadorService: PerfilEntrenadorService,
+    private route: Router,
+    private toatr: CustomToastrService
+  ) { }
 
   ngOnInit(): void {
     this.fetchQuote();
@@ -106,7 +113,7 @@ export class PerfilEntrenadorComponent {
           creado_en: response.creado_en,
         });
         this.entrenadorAct.fotoURL = response.fotoURL;
-        console.log("this.entrenadorAct.fotoURL",this.entrenadorAct.fotoURL);
+        console.log("this.entrenadorAct.fotoURL", this.entrenadorAct.fotoURL);
 
       },
       error: (error) => {
@@ -154,10 +161,17 @@ export class PerfilEntrenadorComponent {
     this.__perfilEntrenadorService.updateEntrenador(this.id, formData).subscribe({
       next: (response) => {
         console.log("response", response);
+        this.toatr.show("Perfil actualizado satisfactoriamente", "success");
+        this.route.navigate(["/dashboard-entrenador"]);
       },
       error: (error) => {
         console.log("error", error);
+        this.toatr.show("Error al actualizar perfil de entrenador", "error");
       }
     });
   }
-}//TODO no se guarda la fotoURL del entrenador, sale null
+
+  logoClick() {
+    this.route.navigate(["/dashboard-entrenador"]);
+  }
+}

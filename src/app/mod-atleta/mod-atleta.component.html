@@ -6,7 +6,7 @@
 
     <!-- Logo y botón de volver a la izquierda -->
     <div class="d-flex align-items-baseline gap-2">
-      <div class="logo fw-bold fs-4 text-accent-red"></div>
+      <div class="logo fw-bold fs-4 text-accent-red" (click)="logoClick()"></div>
       <button type="button" class="btn btn-outline-warning" [routerLink]="['/dashboard-entrenador']">Volver</button>
     </div>
 
@@ -21,7 +21,9 @@
 
   <!-- FORMULARIO NUEVO ATLETA -->
   <form class="custom-panel w-50 align-self-center" (ngSubmit)="submitForm()" enctype="multipart/form-data">
-    <h3 class="mb-4">Modificar Atleta</h3>
+    <div class="d-flex justify-content-between">
+    <h3 class="mb-4">Modificar Atleta</h3> <button class="btn btn-outline-warning" [routerLink]="['/progreso',this.clienteId]">Visualizar graficos de progreso</button>
+    </div>
         <div class="mb-3">
       <label for="foto" class="form-label">Foto de perfil</label>
       <input id="foto" class="form-control" type="file" (change)="onFileChange($event)" accept="image/*">
@@ -77,11 +79,11 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">Confirmar Eliminación</h5>
+        <h5 class="modal-title" id="modalLabel" style="color: black;">Confirmar Eliminación</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <p>¿Estás seguro de que quieres eliminar a
+      <div class="modal-body" style="color: black;">
+        <p>¿Estás seguro de que quieres eliminar al atleta
           <strong>{{atletaAct.nombre}}</strong>?
         </p>
       </div>

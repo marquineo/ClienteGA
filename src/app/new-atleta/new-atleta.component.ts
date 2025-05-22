@@ -84,7 +84,7 @@ export class NewAtletaComponent {
       next: (response) => {
         console.log("Atleta creado", response);
         this.router.navigate(["/dashboard-entrenador"]);
-        this.toastr.show('Atleta creado correctamente', 'error')
+        this.toastr.show('Atleta creado correctamente', 'success')
       },
       error: (error) => {
         console.log("Error al crear atleta", error.error); // <-- Esto te da los mensajes de validación exactos
@@ -94,10 +94,6 @@ export class NewAtletaComponent {
     })
   }
 
-
-  /*mostrarExitoEliminacion() {
-    this.toastr.success('Factura eliminada correctamente', 'Éxito');
-  }*/
   confirmarEliminacion() {
     if (this.atletaAct) {
       console.log("entrando a confirmar eliminacion")
@@ -126,4 +122,7 @@ export class NewAtletaComponent {
   eliminarAtleta() {
     this.__newAtletaService.eliminarAtleta(this.atletaAct.id)//TODO formulario solo pesando para crear nuevos atletas, reutilizar formulario para editar y eliminar atletas
   }
+    logoClick(){
+  this.router.navigate(["/dashboard-entrenador"]);
+}
 }

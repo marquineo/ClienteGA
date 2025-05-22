@@ -4,6 +4,7 @@ import { RutinaEntrenamientoService } from '../rutina-entrenamiento-service.serv
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import * as bootstrap from 'bootstrap';
+import { CustomToastrService } from '../../services/custom-toastr.service';
 
 
 
@@ -29,6 +30,7 @@ export class RutinaEntrenamientoComponent implements OnInit {
     private rutinaService: RutinaEntrenamientoService,
     private fb: FormBuilder,
     private _route: Router,
+    private toatr: CustomToastrService
   ) { }
 
   ngOnInit(): void {
@@ -153,11 +155,12 @@ export class RutinaEntrenamientoComponent implements OnInit {
   }
 
   // Guardar una rutina individualmente
-  guardarRutina(rutinaIndex: number): void {
+  guardarRutina(rutinaIndex: number): boolean {
+    let checker = true;
     const rutinaForm = this.rutinasFormArray.at(rutinaIndex);
     if (rutinaForm.invalid) {
       console.log('Formulario inválido para rutina', rutinaIndex);
-      return;
+      return false;
     }
 
     this.loading = true;
@@ -169,21 +172,31 @@ export class RutinaEntrenamientoComponent implements OnInit {
       (response) => {
         console.log('Rutina actualizada:', response);
         this.loading = false;
+        checker = true;
       },
       (error) => {
         console.error('Error al actualizar rutina:', error);
         this.loading = false;
+        checker = false;
       }
     );
+    return checker
   }
   getFormGroup(index: number): FormGroup {
     return this.rutinasFormArray.at(index) as FormGroup;
   }
 
   guardarTodasRutinas() {
+    let checker = true;
     for (let i = 0; i < this.rutinas.length; i++) {
       console.log(i);
-      this.guardarRutina(i);
+      checker = this.guardarRutina(i);
+      if (!checker) return;
+    }
+    if (checker) {
+      this.toatr.show("Rutinas guardadas satisfactoriamente", "success");
+    } else {
+      this.toatr.show("Error al porcesar las rutinas", "error");
     }
   }
 

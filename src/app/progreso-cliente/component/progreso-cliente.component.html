@@ -1,14 +1,14 @@
+      <div class="logo fw-bold fs-4 text-accent-red" (click)="logoClick()"></div>
+<button *ngIf="rol == 'cliente'" class="btn btn-outline-warning ms-5 mt-5" [routerLink]="['/dashboard-cliente']">Volver</button>
+<button *ngIf="rol == 'entrenador'" class="btn btn-outline-warning ms-5 mt-5" [routerLink]="['/dashboard-entrenador']">Volver</button>
 <div class="container my-5">
   <div class="row g-4">
     <!-- Gráfico 1: Peso -->
     <div class="col-md-6">
       <div class="card shadow-sm h-100">
-    <div class="card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 350px;">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 350px;">
           <h5 class="card-title text-center">Progreso de Peso</h5>
-          <canvas baseChart 
-                  [data]="lineChartDataPeso"
-                  [options]="lineChartOptions"
-                  [type]="'line'">
+          <canvas baseChart [data]="lineChartDataPeso" [options]="lineChartOptions" [type]="lineChartType">
           </canvas>
         </div>
       </div>
@@ -17,73 +17,35 @@
     <!-- Gráfico 2: Grasa Corporal -->
     <div class="col-md-6">
       <div class="card shadow-sm h-100">
-    <div class="card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 350px;">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 350px;">
           <h5 class="card-title text-center">Progreso de Grasa Corporal</h5>
-          <canvas baseChart 
-                  [data]="lineChartDataGrasa"
-                  [options]="lineChartOptions"
-                  [type]="'line'">
+          <canvas baseChart [data]="lineChartDataGrasa" [options]="lineChartOptions" [type]="lineChartType">
           </canvas>
         </div>
       </div>
     </div>
 
-<!-- Gráfico 3: Barras -->
-<div class="col-md-6">
-  <div class="card shadow-sm h-100">
-    <div class="card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 350px;">
-      <h5 class="card-title text-center mb-4">Comparación: Peso y Grasa</h5>
-      <canvas baseChart
-              [data]="barChartData"
-              [options]="lineChartOptions"
-              [type]="barChartType"
-              style="max-height: 250px; width: 100%;">
-      </canvas>
-    </div>
-  </div>
-</div>
-
-
-    <!-- Gráfico 4: Doughnut -->
+    <!-- Gráfico 3: Barras -->
     <div class="col-md-6">
       <div class="card shadow-sm h-100">
-    <div class="card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 350px;">
-          <h5 class="card-title text-center">Distribución Corporal</h5>
-          <canvas baseChart
-                  [data]="doughnutChartData"
-                  [options]="lineChartOptions"
-                  [type]="doughnutChartType">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 350px;">
+          <h5 class="card-title text-center mb-4">Comparación: Peso y Grasa</h5>
+          <canvas baseChart [data]="barChartData" [options]="lineChartOptions" [type]="barChartType"
+            style="max-height: 250px; width: 100%;">
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <!-- Radar Chart: Peso y Grasa por Fecha -->
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 350px;">
+          <h5 class="card-title text-center">Progreso Radar: Peso y Grasa</h5>
+          <canvas baseChart [data]="radarChartData" [options]="lineChartOptions" [type]="radarChartType">
           </canvas>
         </div>
       </div>
     </div>
 
-    <!-- Gráfico 5: Radar -->
-    <div class="col-md-6">
-      <div class="card shadow-sm h-100">
-    <div class="card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 350px;">
-          <h5 class="card-title text-center">Capacidades Físicas</h5>
-          <canvas baseChart
-                  [data]="radarChartData"
-                  [options]="lineChartOptions"
-                  [type]="radarChartType">
-          </canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- Gráfico 6: Scatter -->
-    <div class="col-md-6">
-      <div class="card shadow-sm h-100">
-    <div class="card-body d-flex flex-column justify-content-center align-items-center" style="min-height: 350px;">
-          <h5 class="card-title text-center">Relación Peso vs Grasa</h5>
-          <canvas baseChart
-                  [data]="scatterChartData"
-                  [options]="lineChartOptions"
-                  [type]="scatterChartType">
-          </canvas>
-        </div>
-      </div>
-    </div>
   </div>
 </div>

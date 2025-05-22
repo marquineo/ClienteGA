@@ -69,15 +69,14 @@ export class LoginComponent {
             this.hideError();
             sessionStorage.setItem('username', username);
             sessionStorage.setItem('rol', response.rol);
-            sessionStorage.setItem('id',response.id)
+            sessionStorage.setItem('id',response.id);
             console.log("response.id",response.id);
 
             this.authService.login(username);
             this.loading = false;
             console.log("logged", response);
-            //FIXME puenteado para desarrollo cambiar a 1-2-3
             if (response.rol == "admin") {//Administrador
-              this._route.navigate(['/dashboard-entrenador']);
+              this._route.navigate(['/dashboard-administrador']);
               console.log("administrador");
             } else if (response.rol == "entrenador") {//Entrenador
               this._route.navigate(['/dashboard-entrenador']);

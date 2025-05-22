@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { CustomToastrService } from '../services/custom-toastr.service';
 import { DashboardClienteService } from '../services/dashboard-cliente.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CalendarA11y, CalendarDateFormatter, CalendarEvent, CalendarEventTitleFormatter, CalendarModule, CalendarUtils, DateAdapter } from 'angular-calendar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -51,7 +51,7 @@ interface RegistroProgreso {
     ReactiveFormsModule,
     CalendarModule
   ],
-  providers:[CalendarUtils,CalendarA11y,CalendarDateFormatter,CalendarEventTitleFormatter],
+  providers: [CalendarUtils, CalendarA11y, CalendarDateFormatter, CalendarEventTitleFormatter],
   styleUrls: ['./dashboard-cliente.component.css'],
   animations: [
     trigger('fadeInOut', [
@@ -70,6 +70,8 @@ export class DashboardClienteComponent implements OnInit {
   registrosProgreso: RegistroProgreso[] = [];
   calendarEvents: CalendarEvent[] = [];
   viewDate: Date = new Date(); // fecha actual
+  locale: string = 'es'; // Establece el idioma a español
+  weekStartsOn: number = 1; // 0 = domingo, 1 = lunes
 
 
   progresoForm: FormGroup;
@@ -83,7 +85,7 @@ export class DashboardClienteComponent implements OnInit {
     this.progresoForm = this.fb.group({
       fecha: [this.fechaSeleccionada, Validators.required],
       peso: ['', [Validators.required, Validators.min(20), Validators.max(300)]],
-      grasaCorporal: ['', [Validators.required, Validators.min(1), Validators.max(70)]]
+      grasa_corporal: ['', [Validators.required, Validators.min(1), Validators.max(70)]]
     });
   }
 
@@ -92,9 +94,9 @@ export class DashboardClienteComponent implements OnInit {
     this.cargarFechasConEntrenamiento();
     this.cargarEntrenamiento(this.fechaSeleccionada);
     this.cargarRegistrosProgreso();
-      console.log('Fecha actual:', this.viewDate); // ¿Muestra "2024-05-21"?
+    console.log('Fecha actual:', this.viewDate); // ¿Muestra "2024-05-21"?
   }
-//https://stackoverflow.com/questions/78240580/how-can-i-use-angular-calendar-in-angular-17
+
   cargarEntrenamiento(fecha: string) {
     this.__dashboardService.getEntrenamientoPorFecha(this.clienteId, fecha).subscribe({
       next: (data: RutinaConEjercicios[]) => {
@@ -147,36 +149,66 @@ export class DashboardClienteComponent implements OnInit {
       clienteId: this.clienteId,
       fecha: this.progresoForm.value.fecha,
       peso: this.progresoForm.value.peso,
-      grasaCorporal: this.progresoForm.value.grasaCorporal,
+      grasa_corporal: this.progresoForm.value.grasa_corporal,
     };
+    console.log("nuevoProgreso", nuevoProgreso);
 
-    this.__dashboardService.guardarProgreso(nuevoProgreso).subscribe({
-      next: () => {
+    this.__dashboardService.guardarProgreso(nuevoProgreso, this.clienteId).subscribe({
+      next: (response) => {
         this.toastr.show('Progreso registrado correctamente', 'success');
         this.mostrandoFormulario = false;
+        console.log("response", response);
         this.cargarRegistrosProgreso();
       },
-      error: () => {
+      error: (error) => {
         this.toastr.show('Error al registrar progreso', 'error');
+        console.log("error", error);
       }
     });
   }
 
   cargarFechasConEntrenamiento() {
     this.__dashboardService.getFechasConEntrenamiento(this.clienteId).subscribe((fechas: string[]) => {
-      this.calendarEvents = fechas.map(fecha => ({
-        start: new Date(fecha),
-        title: 'Entrenamiento',
-        allDay: true,
-        color: { primary: '#ad2121', secondary: '#FAE3E3' }
-      }));
-
+      this.calendarEvents = fechas.map(fecha => {
+        const [year, month, day] = fecha.split('-').map(Number);
+        const fechaLocal = new Date(year, month - 1, day); // correcto
+        return {
+          start: fechaLocal,
+          title: 'Entrenamiento',
+          allDay: true,
+          color: { primary: '#ad2121', secondary: '#FAE3E3' }
+        };
+      });
     });
   }
-onDayClicked({ day }: { day: { date: Date; events: CalendarEvent[] }, sourceEvent: MouseEvent | KeyboardEvent }): void {
-  const fechaStr = day.date.toISOString().split('T')[0];
-  this.viewDate = day.date;
-  this.fechaSeleccionada = fechaStr;
-  this.cargarEntrenamiento(fechaStr);
+
+
+  onDayClicked({ day }: { day: { date: Date; events: CalendarEvent[] }, sourceEvent: MouseEvent | KeyboardEvent }): void {
+    const fechaStr = this.formatFechaLocal(day.date);
+    this.viewDate = day.date;
+    this.fechaSeleccionada = fechaStr;
+    this.cargarEntrenamiento(fechaStr);
+  }
+
+  formatFechaLocal(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  eliminarProgreso(id: number) {
+    this.__dashboardService.deleteProgreso(id).subscribe({
+      next: (response) => {
+        console.log("response", response);
+        this.toastr.show("eliminado correctamente", "success");
+        this.cargarRegistrosProgreso();
+      },
+      error: (error) => {
+        console.log("error", error);
+        this.toastr.show("Error al eliminar progreso", "error");
+      }
+    })
+  }
 }
-}
+//https://www.nutricionistasydietistas.com/calculadora/porcentaje-grasa-corporal
