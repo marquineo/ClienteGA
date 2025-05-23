@@ -1,0 +1,7 @@
+.imagen-atleta {
+  object-fit: scale-down;
+  width: 100%;
+  height: 200px;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
