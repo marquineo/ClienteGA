@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class RutinaEntrenamientoService {
 
-  private apiUrl = 'http://localhost:8000/rutinas';
+  //private apiUrl = 'http://localhost:8000/rutinas';
+  private apiUrl = "https://api.gymbroanalytics.xyz/rutinas";  // URL base de la API SERVER
+
 
   constructor(private http: HttpClient) { }
 
@@ -30,14 +32,14 @@ export class RutinaEntrenamientoService {
   eliminarEjercicio(clienteId: number, ejercicioId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/cliente/${clienteId}/ejercicio/${ejercicioId}`);
   }
-  eliminarRutinas(nombreRutinas: string[],clienteId: number) {
-  return this.http.post(`${this.apiUrl}/clientes/${clienteId}/rutinas/eliminar`, { nombres: nombreRutinas });
-}
+  eliminarRutinas(nombreRutinas: string[], clienteId: number) {
+    return this.http.post(`${this.apiUrl}/clientes/${clienteId}/rutinas/eliminar`, { nombres: nombreRutinas });
+  }
 
-//dashboard-entrenador
-getRutinasConEjercicios(clienteId: number) {
-  return this.http.get<any[]>(`${this.apiUrl}/clientes/${clienteId}/rutinas-con-ejercicios`);
-}
+  //dashboard-entrenador
+  getRutinasConEjercicios(clienteId: number) {
+    return this.http.get<any[]>(`${this.apiUrl}/clientes/${clienteId}/rutinas-con-ejercicios`);
+  }
 
 
 }
