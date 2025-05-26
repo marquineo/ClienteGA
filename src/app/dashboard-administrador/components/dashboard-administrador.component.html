@@ -27,7 +27,7 @@
           <div class="card-body">
             <h5 class="card-title text-accent-red">{{ entrenador.nombre }}</h5>
             <p class="card-text">Experiencia: {{ entrenador.experiencia }}</p>
-            <p class="card-text">Especialidad {{ entrenador.especialidad }}kg</p>
+            <p class="card-text">Especialidad {{ entrenador.especialidad }}</p>
             <p class="card-text">Habilitado: {{ entrenador.ishabilitado }}</p>
             <p class="card-text">usuario_id: {{ entrenador.usuario_id }}</p>
             <button class="btn btn-danger w-100 mt-2" [routerLink]="['/mod-entrenador',entrenador.usuario_id]">Gestionar
