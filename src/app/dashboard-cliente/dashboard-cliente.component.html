@@ -1,5 +1,5 @@
-      <div class="logo fw-bold fs-4 text-accent-red ms-5"></div>
-      <button class="btn btn-outline-danger ms-5" [routerLink]="['/login']">Cerrar Sesión</button>
+<div class="logo fw-bold fs-4 text-accent-red ms-5"></div>
+<button class="btn btn-outline-danger ms-5" [routerLink]="['/login']">Cerrar Sesión</button>
 <div class="container p-4">
   <mwl-calendar-month-view [viewDate]="viewDate" [events]="calendarEvents" [activeDayIsOpen]="true"
     (dayClicked)="onDayClicked($event)">
@@ -100,7 +100,8 @@
             <td>{{ r.fecha }}</td>
             <td>{{ r.peso }}</td>
             <td>{{ r.grasaCorporal }}</td>
-            <td><button class="btn btn-danger" (click)="eliminarProgreso(r.id)"><i class="fa-regular fa-trash-can"></i>Eliminar</button></td>
+            <td><button class="btn btn-danger" (click)="eliminarProgreso(r.id)"><i
+                  class="fa-regular fa-trash-can"></i>Eliminar</button></td>
           </tr>
         </tbody>
       </table>

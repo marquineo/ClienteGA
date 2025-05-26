@@ -93,30 +93,17 @@ export class ModEntrenadorComponent {
     this.__modEntrenador.getEntrenador(this.entrenadorId).subscribe({
       next: (responseUsuario) => {
         const dataUsuario = responseUsuario;
-        console.log("usuario",responseUsuario);
-
-        // Una vez tenemos el usuario, ahora pedimos los datos de cliente por su usuario_id
-        this.__modAtletaService.getClienteByUsuarioId(dataUsuario.id).subscribe({
-          next: (responseCliente) => {
-            console.log("cliente",responseCliente);
-            const dataCliente = responseCliente.data;
+        console.log("usuario",dataUsuario);
             this.entrenadorAct = {
               id: dataUsuario.id,
-              usuario_id: dataCliente.id,
+              usuario_id: dataUsuario.id,
               nombre: dataUsuario.nombre,
               especialidad: dataUsuario.especialidad,
               experiencia: dataUsuario.experiencia,
-              ishabilitado: dataCliente.ishabilitado,
+              ishabilitado: dataUsuario.ishabilitado,
               fotoURL: dataUsuario.fotoURL,
               email: dataUsuario.email
             };
-
-            console.log("entrenadorAct cargado:", this.entrenadorAct);
-          },
-          error: (error) => {
-            console.error("Error al obtener datos de cliente:", error);
-          }
-        });
       },
       error: (error) => {
         console.error("Error al obtener datos de usuario:", error);

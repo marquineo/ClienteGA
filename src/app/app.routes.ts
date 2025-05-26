@@ -9,6 +9,7 @@ import { ModAtletaComponent } from './mod-atleta/mod-atleta.component';
 import { DashboardClienteComponent } from './dashboard-cliente/dashboard-cliente.component';
 import { DashboardAdministradorComponent } from './dashboard-administrador/components/dashboard-administrador.component';
 import { ModEntrenadorComponent } from './mod-entrenador/components/mod-entrenador.component';
+import { NewEntrenadorComponent } from './new-entrenador/new-entrenador.component';
 
 export const routes: Routes = [
   // Login
@@ -27,7 +28,7 @@ export const routes: Routes = [
     path: 'dashboard-entrenador',
     component: DashboardEntrenadorComponent
   },
-    // Dashboard Cliente
+  // Dashboard Cliente
   {
     path: 'dashboard-cliente',
     component: DashboardClienteComponent
@@ -37,7 +38,7 @@ export const routes: Routes = [
     path: 'form-atletas',
     component: NewAtletaComponent
   },
-    // Formulario Atletas modificar
+  // Formulario Atletas modificar
   {
     path: 'mod-atletas/:id',
     component: ModAtletaComponent
@@ -47,32 +48,35 @@ export const routes: Routes = [
     path: 'perfil-entrenador',
     component: PerfilEntrenadorComponent
   },
-    // rutinaEnrenamiento
+  // rutinaEnrenamiento
   {
     path: 'rutina-entrenamiento',
     component: RutinaEntrenamientoComponent
   },
-    {
+  {
     path: 'rutina-entrenamiento/:id',
     component: RutinaEntrenamientoComponent
   },
-   {
+  {
     path: 'progreso',
     component: ProgresoClienteComponent,
   },
-     {
+  {
     path: 'progreso/:id',
     component: ProgresoClienteComponent,
   },
-    {
+  {
     path: 'dashboard-administrador',
     component: DashboardAdministradorComponent
   },
-    {
+  {
     path: 'mod-entrenador/:id',
     component: ModEntrenadorComponent
   },
-
+  {
+    path: 'new-entrenador',
+    component: NewEntrenadorComponent
+  },
   // Wildcard debe ir al final
   {
     path: '**',

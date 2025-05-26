@@ -5,3 +5,19 @@
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
 }
+.logo{
+background-image: url('/assets/logoGA(sinFondo).png');
+background-size: contain;
+background-repeat: no-repeat;
+height: 15vh;
+width: 15vh;
+}
+.logo:hover{
+  cursor: pointer;
+}
+.dashboard {
+  background-image: url('/assets/logoGA(BackGround)4.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}

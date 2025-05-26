@@ -32,5 +32,4 @@ export class ModAtletaService {
   eliminarAtleta(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/clientes/atletas/${id}/eliminar`);
   }
-
 }

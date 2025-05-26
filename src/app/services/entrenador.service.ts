@@ -38,4 +38,11 @@ export class EntrenadorService {
   eliminarEntrenador(id: number): Observable<any> {
     return this.http.delete(`${this.urlApi}/entrenador/${id}/eliminar`);
   }
+
+  newEntrenador(formData: FormData) {
+    for (const pair of formData.entries()) {
+      console.log(pair[0] + ':', pair[1]);
+    }
+    return this.http.post(`${this.urlApi}/registrar/entrenador`, formData)
+  }
 }

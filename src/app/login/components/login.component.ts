@@ -79,8 +79,13 @@ export class LoginComponent {
               this._route.navigate(['/dashboard-administrador']);
               console.log("administrador");
             } else if (response.rol == "entrenador") {//Entrenador
+              if(response.ishabilitado){
               this._route.navigate(['/dashboard-entrenador']);
               console.log("entrenador");
+              }else{
+                console.log("response.ishabilitado",response.ishabilitado);
+                this.toastr.show("Entrenador deshabilitado","info");
+              }
             } else if (response.rol == "cliente") {//Cliente
               this._route.navigate(['/dashboard-cliente']);
               console.log("cliente");

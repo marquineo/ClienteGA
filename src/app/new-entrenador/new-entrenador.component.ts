@@ -1,48 +1,41 @@
 import { Component } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 import { StoicQuoteService } from '../services/stoic-quotesService';
-import { FormsModule } from '@angular/forms';
-import { NewAtletaService } from '../services/new-atleta.service';
-import { RouterModule } from '@angular/router';
-import * as bootstrap from 'bootstrap';
-import { Router } from '@angular/router';
 import { CustomToastrService } from '../services/custom-toastr.service';
+import { EntrenadorService } from '../services/entrenador.service';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import * as bootstrap from 'bootstrap';
 
-interface Atleta {
+
+interface Entrenador {
+  id: number,
+  usuario_id: number,
   nombre: string,
-  username: string,
-  password: string,
+  especialidad: string,
+  experiencia: number,
+  //usuarios
+  ishabilitado: boolean,
   email: string,
-  foto: File | null,
-  peso: GLfloat,
-  altura: GLfloat,
-  role_id: number,
-  id: number
+  password: ""
 }
 
 @Component({
-  selector: 'app-new-atleta',
+  selector: 'app-new-entrenador',
   imports: [FormsModule, RouterModule],
-  templateUrl: './new-atleta.component.html',
-  styleUrl: './new-atleta.component.css',
-  animations: [
-    trigger('fadeInOut', [
-      state('visible', style({ opacity: 1 })),
-      state('hidden', style({ opacity: 0 })),
-      transition('visible => hidden', [animate('400ms ease-out')]),
-      transition('hidden => visible', [animate('400ms ease-in')])
-    ])
-  ]
+  templateUrl: './new-entrenador.component.html',
+  styleUrl: './new-entrenador.component.css'
 })
-export class NewAtletaComponent {
-  atletaAct: Atleta = { nombre: '', username: '', password: '', email: '', foto: null, peso: 0, altura: 0, role_id: 3, id: 0 }
+
+export class NewEntrenadorComponent {
+
+  entrenadorAct: Entrenador = { nombre: '', usuario_id: 0, email: '', especialidad: '', ishabilitado: false, id: 0, experiencia: 0, password: '' }
   quote: string = '';
   author: string = '';
   nombreEntrenador = sessionStorage.getItem('username');
   visible: 'visible' | 'hidden' = 'visible';
   fotoSeleccionada: File | null = null;
 
-  constructor(private __stoicQuoteService: StoicQuoteService, private toastr: CustomToastrService, private __newAtletaService: NewAtletaService, private router: Router) { }
+  constructor(private __stoicQuoteService: StoicQuoteService, private toastr: CustomToastrService, private __entrenadorService: EntrenadorService, private router: Router) { }
 
   ngOnInit(): void {
     this.fetchQuote();
@@ -66,28 +59,26 @@ export class NewAtletaComponent {
       this.fotoSeleccionada = input.files[0];
     }
   }
-
+  
   submitForm(): void {
     const formData = new FormData();
-    formData.append('nombre', this.atletaAct.nombre);
-    formData.append('contrasenya', this.atletaAct.password);
-    formData.append('email', this.atletaAct.email);
-    formData.append('peso', String(this.atletaAct.peso));
-    formData.append('altura', String(this.atletaAct.altura));
-    formData.append('role_id', String(this.atletaAct.role_id));
-    formData.append('entrenador_id', String(sessionStorage.getItem('id')));
+    formData.append('nombre', this.entrenadorAct.nombre);
+    formData.append('contrasenya', this.entrenadorAct.password);
+    formData.append('email', this.entrenadorAct.email);
+    formData.append('especialidad', String(this.entrenadorAct.especialidad));
+    formData.append('experiencia', String(this.entrenadorAct.experiencia));
     if (this.fotoSeleccionada !== null) {
       formData.append('foto', this.fotoSeleccionada);
     }
     console.log("formData", formData);
-    this.__newAtletaService.nuevoAtleta(formData).subscribe({
+    this.__entrenadorService.newEntrenador(formData).subscribe({
       next: (response) => {
-        console.log("Atleta creado", response);
-        this.router.navigate(["/dashboard-entrenador"]);
-        this.toastr.show('Atleta creado correctamente', 'success')
+        console.log("entrenador creado", response);
+        this.router.navigate(["/dashboard-administrador"]);
+        this.toastr.show('Entrenador creado correctamente', 'success')
       },
       error: (error) => {
-        console.log("Error al crear atleta", error.error); // <-- Esto te da los mensajes de validación exactos
+        console.log("Error al crear atleta", error.error);
 
         this.toastr.show('Error al crear Atleta', 'error')
       }
@@ -95,9 +86,9 @@ export class NewAtletaComponent {
   }
 
   confirmarEliminacion() {
-    if (this.atletaAct) {
+    if (this.entrenadorAct) {
       console.log("entrando a confirmar eliminacion")
-      console.log("atletaAct:", this.atletaAct);
+      console.log("entrenadorAct:", this.entrenadorAct);
       this.eliminarAtleta();
 
       // Cerrar el modal manualmente
@@ -120,9 +111,9 @@ export class NewAtletaComponent {
   }
 
   eliminarAtleta() {
-    this.__newAtletaService.eliminarAtleta(this.atletaAct.id)
+    this.__entrenadorService.eliminarEntrenador(this.entrenadorAct.id)
   }
-    logoClick(){
-  this.router.navigate(["/dashboard-entrenador"]);
-}
+  logoClick() {
+    this.router.navigate(["/dashboard-entrenador"]);
+  }
 }
