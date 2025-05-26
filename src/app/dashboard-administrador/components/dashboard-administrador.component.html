@@ -22,8 +22,6 @@
     <div id="cards" class="row row-cols-1 row-cols-md-4 g-3">
       <div class="col" *ngFor="let entrenador of entrenadoresFiltrados">
         <div class="card h-50 bg-card border-0 text-light animate-card-hover">
-          <img [src]="entrenador.fotoURL" class="card-img-top imagen-atleta" alt="Imagen entrenador">
-
           <div class="card-body">
             <h5 class="card-title text-accent-red">{{ entrenador.nombre }}</h5>
             <p class="card-text">Experiencia: {{ entrenador.experiencia }}</p>
