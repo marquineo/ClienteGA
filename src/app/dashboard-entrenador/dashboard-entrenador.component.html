@@ -8,14 +8,20 @@
         entrenador</button>
     </div>
   </div>
-  <!-- Filtro por nombre -->
-  <div class="px-4 mb-3 d-flex justify-content-between" style="width: 50%;">
-    <button class="btn btn-outline-danger" [routerLink]="['/login']">Cerrar sesión</button>
-    <input type="text" [(ngModel)]="filtroNombre" class="form-control bg-dark text-light border-secondary"
-      placeholder="Buscar atleta por nombre..." (change)="filtrarAtletas()" style="width: 65%;">
-    <button class="btn btn-outline-warning" [routerLink]="['/form-atletas']">Agregar Atleta</button>
+<!-- Filtro por nombre -->
+<div class="px-4 mb-3 d-flex flex-column flex-md-row justify-content-between align-items-stretch gap-2 filtro-responsive w-md-50">
+  <button class="btn btn-outline-danger w-100 w-md-50" [routerLink]="['/login']">Cerrar sesión</button>
 
-  </div>
+  <input type="text"
+         [(ngModel)]="filtroNombre"
+         class="form-control bg-dark text-light border-secondary w-100 w-md-50"
+         placeholder="Buscar atleta por nombre..."
+         (change)="filtrarAtletas()">
+
+  <button class="btn btn-outline-warning w-100 w-md-50" [routerLink]="['/form-atletas']">Agregar Atleta</button>
+</div>  
+
+  
   <!-- BODY -->
   <div class="stats px-4">
     <h3 class="mb-4">Atletas:</h3>

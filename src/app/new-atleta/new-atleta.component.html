@@ -25,12 +25,14 @@
       <input id="nombre" class="form-control" type="text" [(ngModel)]="atletaAct.nombre" name="nombre" required>
     </div>
 
-    <div class="mb-3">
-      <label for="contrasenya" class="form-label">Contraseña</label>
-      <input id="contrasenya" class="form-control" type="password" [(ngModel)]="atletaAct.password" name="contrasenya"
-        required>
+    <label for="contrasenya" class="form-label">Contraseña</label>
+    <div class="mb-3 input-group">
+      <input id="contrasenya" class="form-control" [type]="showPassword ? 'text' : 'password'"
+        [(ngModel)]="atletaAct.password" name="contrasenya" required><button class="btn btn-outline-light" type="button"
+        (click)="changePasswordVisibility()">
+        <i class="fa-regular" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+      </button>
     </div>
-
     <div class="mb-3">
       <label for="correo" class="form-label">Correo electrónico</label>
       <input id="correo" class="form-control" type="email" [(ngModel)]="atletaAct.email" name="correo" required>

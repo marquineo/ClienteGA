@@ -5,6 +5,8 @@ import { EntrenadorService } from '../services/entrenador.service';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
+import { CommonModule } from '@angular/common';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 
 interface Entrenador {
@@ -21,9 +23,17 @@ interface Entrenador {
 
 @Component({
   selector: 'app-new-entrenador',
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule,CommonModule],
   templateUrl: './new-entrenador.component.html',
-  styleUrl: './new-entrenador.component.css'
+  styleUrl: './new-entrenador.component.css',
+    animations: [
+    trigger('fadeInOut', [
+      state('visible', style({ opacity: 1 })),
+      state('hidden', style({ opacity: 0 })),
+      transition('visible => hidden', [animate('400ms ease-out')]),
+      transition('hidden => visible', [animate('400ms ease-in')])
+    ])
+  ]
 })
 
 export class NewEntrenadorComponent {
@@ -34,6 +44,7 @@ export class NewEntrenadorComponent {
   nombreEntrenador = sessionStorage.getItem('username');
   visible: 'visible' | 'hidden' = 'visible';
   fotoSeleccionada: File | null = null;
+    public showPassword: boolean = false;
 
   constructor(private __stoicQuoteService: StoicQuoteService, private toastr: CustomToastrService, private __entrenadorService: EntrenadorService, private router: Router) { }
 
@@ -114,6 +125,10 @@ export class NewEntrenadorComponent {
     this.__entrenadorService.eliminarEntrenador(this.entrenadorAct.id)
   }
   logoClick() {
-    this.router.navigate(["/dashboard-entrenador"]);
+    this.router.navigate(["/dashboard-administrador"]);
+  }
+
+    changePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }

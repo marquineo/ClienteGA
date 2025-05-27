@@ -14,3 +14,15 @@ width: 15vh;
   background-repeat: no-repeat;
   background-position: center;
 }
+
+@media (max-width: 767.98px) {
+  .form-responsive {
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .form-responsive {
+    width: 50% !important;
+  }
+}

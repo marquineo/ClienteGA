@@ -26,8 +26,15 @@
 
     <div class="mb-3">
       <label for="contrasenya" class="form-label">Contraseña</label>
-      <input id="contrasenya" class="form-control" type="password" [(ngModel)]="entrenadorAct.password" name="contrasenya"
-        required>
+      <!--<input id="contrasenya" class="form-control" type="password" [(ngModel)]="entrenadorAct.password" name="contrasenya"
+        required>-->
+      <div class="input-group">
+        <input [type]="showPassword ? 'text' : 'password'" class="form-control" [(ngModel)]="entrenadorAct.password" name="password"
+          required>
+        <button class="btn btn-outline-light" type="button" (click)="changePasswordVisibility()">
+          <i class="fa-regular" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+      </div>
     </div>
 
     <div class="mb-3">
@@ -42,13 +49,14 @@
 
     <div class="mb-3">
       <label for="experiencia" class="form-label">experiencia</label>
-      <input id="experiencia" class="form-control" type="number" [(ngModel)]="entrenadorAct.experiencia" name="experiencia" step="1" required>
+      <input id="experiencia" class="form-control" type="number" [(ngModel)]="entrenadorAct.experiencia"
+        name="experiencia" step="1" required>
     </div>
 
     <div class="mb-3">
       <label for="especialidad" class="form-label">especialidad</label>
-      <input id="especialidad" class="form-control" type="text" [(ngModel)]="entrenadorAct.especialidad" name="especialidad"
-        required>
+      <input id="especialidad" class="form-control" type="text" [(ngModel)]="entrenadorAct.especialidad"
+        name="especialidad" required>
     </div>
 
     <button type="submit" class="btn btn-outline-warning w-100">Guardar Entrenador</button>

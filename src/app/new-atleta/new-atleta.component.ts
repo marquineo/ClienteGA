@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { Router } from '@angular/router';
 import { CustomToastrService } from '../services/custom-toastr.service';
+import { CommonModule } from '@angular/common';
 
 interface Atleta {
   nombre: string,
@@ -22,7 +23,7 @@ interface Atleta {
 
 @Component({
   selector: 'app-new-atleta',
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule,CommonModule],
   templateUrl: './new-atleta.component.html',
   styleUrl: './new-atleta.component.css',
   animations: [
@@ -41,6 +42,7 @@ export class NewAtletaComponent {
   nombreEntrenador = sessionStorage.getItem('username');
   visible: 'visible' | 'hidden' = 'visible';
   fotoSeleccionada: File | null = null;
+    public showPassword: boolean = false;
 
   constructor(private __stoicQuoteService: StoicQuoteService, private toastr: CustomToastrService, private __newAtletaService: NewAtletaService, private router: Router) { }
 
@@ -125,4 +127,8 @@ export class NewAtletaComponent {
     logoClick(){
   this.router.navigate(["/dashboard-entrenador"]);
 }
+
+  changePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 }

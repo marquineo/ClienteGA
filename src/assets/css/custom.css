@@ -157,3 +157,14 @@ input.form-control:focus {
   border-color: var(--accent-red);
   box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.4);
 }
+
+
+@media (min-width: 768px) {
+  .w-md-50 {
+    width: 50% !important;
+  }
+
+  .w-md-auto {
+    width: 100% !important;
+  }
+}

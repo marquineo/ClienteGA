@@ -24,3 +24,14 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+/* Media query solo para pantallas pequeñas */
+@media (max-width: 767.98px) {
+  .filtro-responsive {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .filtro-responsive > * {
+    width: 100% !important;
+  }
+}

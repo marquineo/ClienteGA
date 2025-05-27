@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class RutinaEntrenamientoService {
 
-  //private apiUrl = 'http://localhost:8000/rutinas';
-  private apiUrl = "https://api.gymbroanalytics.xyz/rutinas";  // URL base de la API SERVER
+  private apiUrl = 'http://localhost:8000/rutinas';
+  //private apiUrl = "https://api.gymbroanalytics.xyz/rutinas";  // URL base de la API SERVER
 
 
   constructor(private http: HttpClient) { }

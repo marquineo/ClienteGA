@@ -43,14 +43,7 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.loading = false;
-    /*this._loginService.getUsers().subscribe({
-      next: (response) => {
-        this.users = response;
-        this.loading = false;
-      },
-      error: (error) => {
-      }
-    });*/
+    this.authService.logout();
   }
 
   changePasswordVisibility() {

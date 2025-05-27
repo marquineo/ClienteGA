@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { CustomToastrService } from '../services/custom-toastr.service';
 import { RutinaEntrenamientoService } from '../rutina-entrenamiento/rutina-entrenamiento-service.service';
 import { ModAtletaService } from '../services/mod-atleta.service';
+import { CommonModule } from '@angular/common';
 
 interface Atleta {
   nombre: string,
@@ -24,7 +25,7 @@ interface Atleta {
 }
 @Component({
   selector: 'app-mod-atleta',
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule,CommonModule],
   templateUrl: './mod-atleta.component.html',
   styleUrl: './mod-atleta.component.css',
   animations: [
@@ -44,6 +45,7 @@ export class ModAtletaComponent {
   visible: 'visible' | 'hidden' = 'visible';
   fotoSeleccionada: File | null = null;
   clienteId: number = 0;
+    public showPassword: boolean = false;
 
 
   constructor(private __stoicQuoteService: StoicQuoteService,
@@ -189,5 +191,9 @@ export class ModAtletaComponent {
   logoClick(){
   this.router.navigate(["/dashboard-entrenador"]);
 }
+
+  changePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
 }

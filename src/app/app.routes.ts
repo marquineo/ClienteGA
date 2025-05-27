@@ -10,77 +10,73 @@ import { DashboardClienteComponent } from './dashboard-cliente/dashboard-cliente
 import { DashboardAdministradorComponent } from './dashboard-administrador/components/dashboard-administrador.component';
 import { ModEntrenadorComponent } from './mod-entrenador/components/mod-entrenador.component';
 import { NewEntrenadorComponent } from './new-entrenador/new-entrenador.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // Login
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
 
-  // Dashboard Entrenador
   {
     path: 'dashboard-entrenador',
-    component: DashboardEntrenadorComponent
+    component: DashboardEntrenadorComponent,
+    canActivate: [authGuard]
   },
-  // Dashboard Cliente
   {
     path: 'dashboard-cliente',
-    component: DashboardClienteComponent
+    component: DashboardClienteComponent,
+    canActivate: [authGuard]
   },
-  // Formulario Atletas
   {
     path: 'form-atletas',
-    component: NewAtletaComponent
+    component: NewAtletaComponent,
+    canActivate: [authGuard]
   },
-  // Formulario Atletas modificar
   {
     path: 'mod-atletas/:id',
-    component: ModAtletaComponent
+    component: ModAtletaComponent,
+    canActivate: [authGuard]
   },
-  // Perfil entrenador
   {
     path: 'perfil-entrenador',
-    component: PerfilEntrenadorComponent
+    component: PerfilEntrenadorComponent,
+    canActivate: [authGuard]
   },
-  // rutinaEnrenamiento
   {
     path: 'rutina-entrenamiento',
-    component: RutinaEntrenamientoComponent
+    component: RutinaEntrenamientoComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'rutina-entrenamiento/:id',
-    component: RutinaEntrenamientoComponent
+    component: RutinaEntrenamientoComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'progreso',
     component: ProgresoClienteComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'progreso/:id',
     component: ProgresoClienteComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'dashboard-administrador',
-    component: DashboardAdministradorComponent
+    component: DashboardAdministradorComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'mod-entrenador/:id',
-    component: ModEntrenadorComponent
+    component: ModEntrenadorComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'new-entrenador',
-    component: NewEntrenadorComponent
+    component: NewEntrenadorComponent,
+    canActivate: [authGuard]
   },
-  // Wildcard debe ir al final
-  {
-    path: '**',
-    redirectTo: 'login'
-  }
-];
 
+  // RUTA WILDCARD
+  { path: '**', redirectTo: 'login' }
+];

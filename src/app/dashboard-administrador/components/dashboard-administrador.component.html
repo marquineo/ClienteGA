@@ -9,11 +9,11 @@
     </div>
   </div>
   <!-- Filtro por nombre -->
-  <div class="px-4 mb-3 d-flex justify-content-between" style="width: 50%;">
-    <button class="btn btn-outline-danger" [routerLink]="['/login']">Cerrar sesión</button>
-    <input type="text" [(ngModel)]="filtroNombre" class="form-control bg-dark text-light border-secondary"
-      placeholder="Buscar entrenador por nombre..." (change)="filtrarEntrenadores()" style="width: 65%;">
-    <button class="btn btn-outline-warning" [routerLink]="['/new-entrenador']">Agregar Entrenador</button>
+  <div class="px-4 mb-3 d-flex flex-column flex-md-row justify-content-between" style="max-width: 900px;">
+    <button class="btn btn-outline-danger ms-3 w-100" [routerLink]="['/login']">Cerrar sesión</button>
+    <input type="text" [(ngModel)]="filtroNombre" class="form-control bg-dark text-light border-secondary ms-3 w-100"
+      placeholder="Buscar entrenador por nombre..." (change)="filtrarEntrenadores()">
+    <button class="btn btn-outline-warning ms-3 w-100" [routerLink]="['/new-entrenador']">Agregar Entrenador</button>
 
   </div>
   <!-- BODY -->
