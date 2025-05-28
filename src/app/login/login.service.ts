@@ -8,8 +8,8 @@ import { catchError, Observable } from 'rxjs';
 export class LoginService {
 
 
-  urlApi = "http://127.0.0.1:8000";  // URL base de la API LOCAL
-  //urlApi = "https://api.gymbroanalytics.xyz";  // URL base de la API SERVER
+  //urlApi = "http://127.0.0.1:8000";  // URL base de la API LOCAL
+  urlApi = "https://api.gymbroanalytics.xyz";  // URL base de la API SERVER
 
   currentUsername: string = '';
 

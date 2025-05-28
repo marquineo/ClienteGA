@@ -9,8 +9,8 @@ export class ModAtletaService {
 
   constructor(private http: HttpClient) { }
 
-  //apiUrl = 'https://api.gymbroanalytics.xyz/users'; //URL Producción
-  apiUrl = "http://127.0.0.1:8000/users";  // URL base de la API LOCAL
+  apiUrl = 'https://api.gymbroanalytics.xyz/users'; //URL Producción
+  //apiUrl = "http://127.0.0.1:8000/users";  // URL base de la API LOCAL
 
 
   getUser(clienteId: number): Observable<any> {

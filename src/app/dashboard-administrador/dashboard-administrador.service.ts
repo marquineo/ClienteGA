@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DashboardAdministradorService {
-  //apiUrl = 'https://api.gymbroanalytics.xyz'; //URL Producción
-  apiUrl = "http://127.0.0.1:8000";  // URL base de la API LOCAL
+  apiUrl = 'https://api.gymbroanalytics.xyz'; //URL Producción
+  //apiUrl = "http://127.0.0.1:8000";  // URL base de la API LOCAL
 
   constructor(private http: HttpClient) { } // ✅ Inyección correcta
 
