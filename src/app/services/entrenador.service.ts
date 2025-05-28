@@ -30,7 +30,7 @@ export class EntrenadorService {
 
   actualizarEntrenador(id: number, formData: FormData) {
     for (const pair of formData.entries()) {
-      console.log(pair[0] + ':', pair[1]);
+      //console.log(pair[0] + ':', pair[1]);
     }
     return this.http.post<any>(`${this.urlApi}/${id}/actualizar/entrenador`, formData);
   }
@@ -41,7 +41,7 @@ export class EntrenadorService {
 
   newEntrenador(formData: FormData) {
     for (const pair of formData.entries()) {
-      console.log(pair[0] + ':', pair[1]);
+      //console.log(pair[0] + ':', pair[1]);
     }
     return this.http.post(`${this.urlApi}/registrar/entrenador`, formData)
   }

@@ -58,7 +58,7 @@ export class ModEntrenadorComponent {
   ngOnInit(): void {
     this.fetchQuote();
     this.entrenadorId = +this.activatedRoute.snapshot.paramMap.get('id')!;
-    console.log("entrenadorId",this.entrenadorId);
+    //console.log("entrenadorId",this.entrenadorId);
     this.getAtleta();
   }
 
@@ -93,7 +93,7 @@ export class ModEntrenadorComponent {
     this.__modEntrenador.getEntrenador(this.entrenadorId).subscribe({
       next: (responseUsuario) => {
         const dataUsuario = responseUsuario;
-        console.log("usuario",dataUsuario);
+        //console.log("usuario",dataUsuario);
             this.entrenadorAct = {
               id: dataUsuario.id,
               usuario_id: dataUsuario.id,
@@ -122,15 +122,15 @@ export class ModEntrenadorComponent {
     if (this.fotoSeleccionada !== null) {
       formData.append('foto', this.fotoSeleccionada);
     }
-    console.log("formData", formData);
+    //console.log("formData", formData);
     this.__modEntrenador.actualizarEntrenador(this.entrenadorId, formData).subscribe({
       next: (response) => {
-        console.log("Atleta actualizado", response);
+        //console.log("Atleta actualizado", response);
         this.router.navigate(["/dashboard-administrador"]);
         this.toastr.show('Atleta actualizado correctamente', 'success')
       },
       error: (error) => {
-        console.log("Error al actualizar atleta", error.error);
+        //console.log("Error al actualizar atleta", error.error);
         this.toastr.show('Error al actualizar Atleta', 'error')
       }
     });
@@ -161,7 +161,7 @@ export class ModEntrenadorComponent {
   eliminarAtleta() {
     this.__modEntrenador.eliminarEntrenador(this.entrenadorAct.id).subscribe({
       next: (response) => {
-        console.log("Entrenador eliminado", response);
+        //console.log("Entrenador eliminado", response);
         this.toastr.show('Entrenador eliminado correctamente', 'success');
         this.router.navigate(['/dashboard-administrador']);
       },

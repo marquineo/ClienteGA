@@ -21,11 +21,11 @@ export class ModAtletaService {
   }
   
   actualizarAtleta(id: number, formData: FormData) {
-    console.log("principio");
+    //console.log("principio");
     for (const pair of formData.entries()) {
-      console.log(pair[0] + ':', pair[1]);
+      //console.log(pair[0] + ':', pair[1]);
     }
-    console.log("fin");
+    //console.log("fin");
     return this.http.post<any>(`${this.apiUrl}/clientes/atletas/${id}/actualizar`, formData);
   }
 

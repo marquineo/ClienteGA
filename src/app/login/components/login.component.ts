@@ -63,25 +63,25 @@ export class LoginComponent {
             sessionStorage.setItem('username', username);
             sessionStorage.setItem('rol', response.rol);
             sessionStorage.setItem('id',response.id);
-            console.log("response.id",response.id);
+            //console.log("response.id",response.id);
 
             this.authService.login(username);
             this.loading = false;
-            console.log("logged", response);
+            //console.log("logged", response);
             if (response.rol == "admin") {//Administrador
               this._route.navigate(['/dashboard-administrador']);
-              console.log("administrador");
+              //console.log("administrador");
             } else if (response.rol == "entrenador") {//Entrenador
               if(response.ishabilitado){
               this._route.navigate(['/dashboard-entrenador']);
-              console.log("entrenador");
+              //console.log("entrenador");
               }else{
-                console.log("response.ishabilitado",response.ishabilitado);
+                //console.log("response.ishabilitado",response.ishabilitado);
                 this.toastr.show("Entrenador deshabilitado","info");
               }
             } else if (response.rol == "cliente") {//Cliente
               this._route.navigate(['/dashboard-cliente']);
-              console.log("cliente");
+              //console.log("cliente");
             } else {
               this.errorRoles();
             }

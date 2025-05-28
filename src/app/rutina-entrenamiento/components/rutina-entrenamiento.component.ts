@@ -159,18 +159,18 @@ export class RutinaEntrenamientoComponent implements OnInit {
     let checker = true;
     const rutinaForm = this.rutinasFormArray.at(rutinaIndex);
     if (rutinaForm.invalid) {
-      console.log('Formulario inválido para rutina', rutinaIndex);
+      //console.log('Formulario inválido para rutina', rutinaIndex);
       return false;
     }
 
     this.loading = true;
     const rutinaData = rutinaForm.value;
     const rutinaId = this.rutinas[rutinaIndex].id;
-    console.log(rutinaData);
+    //console.log(rutinaData);
 
     this.rutinaService.actualizarRutina(this.clienteId, rutinaData).subscribe(
       (response) => {
-        console.log('Rutina actualizada:', response);
+        //console.log('Rutina actualizada:', response);
         this.loading = false;
         checker = true;
       },
@@ -189,7 +189,7 @@ export class RutinaEntrenamientoComponent implements OnInit {
   guardarTodasRutinas() {
     let checker = true;
     for (let i = 0; i < this.rutinas.length; i++) {
-      console.log(i);
+      //console.log(i);
       checker = this.guardarRutina(i);
       if (!checker) return;
     }
@@ -213,7 +213,7 @@ export class RutinaEntrenamientoComponent implements OnInit {
 
     this.rutinaService.eliminarRutinas(nombresAEliminar, this.clienteId).subscribe({
       next: () => {
-        console.log('Rutinas eliminadas correctamente');
+        //console.log('Rutinas eliminadas correctamente');
         // Actualizar rutinasOriginal tras la eliminación
         this.rutinasOriginal = JSON.parse(JSON.stringify(this.rutinas));
       },

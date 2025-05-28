@@ -32,21 +32,21 @@ export class NewAtletaService {
 
 
   nuevoAtleta(formData: FormData): Observable<any> {
-    console.log("entrando en nuevoAtleta");
+    //console.log("entrando en nuevoAtleta");
     const URLPOST = this.urlApi + "/registrar/cliente";
     for (const pair of formData.entries()) {
-      console.log(pair[0] + ':', pair[1]);
+      //console.log(pair[0] + ':', pair[1]);
     }
     return this.http.post<any>(URLPOST, formData).pipe(
-      tap(response => console.log("Respuesta del servidor:", response))
+      //tap(response => //console.log("Respuesta del servidor:", response))
     );
   }
 
   eliminarAtleta(atletaID: number): Observable<any> {
-    console.log("entrando a eliminarAtleta");
+    //console.log("entrando a eliminarAtleta");
     const URLDELETE = this.urlApi + "/" + atletaID;
     return this.http.delete<any>(URLDELETE).pipe(
-      tap(response => console.log("Respuesta del servidor:", response))
+      //tap(response => //console.log("Respuesta del servidor:", response))
     );
   }
 }

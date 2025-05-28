@@ -81,15 +81,15 @@ export class NewAtletaComponent {
     if (this.fotoSeleccionada !== null) {
       formData.append('foto', this.fotoSeleccionada);
     }
-    console.log("formData", formData);
+    //console.log("formData", formData);
     this.__newAtletaService.nuevoAtleta(formData).subscribe({
       next: (response) => {
-        console.log("Atleta creado", response);
+        //console.log("Atleta creado", response);
         this.router.navigate(["/dashboard-entrenador"]);
         this.toastr.show('Atleta creado correctamente', 'success')
       },
       error: (error) => {
-        console.log("Error al crear atleta", error.error); // <-- Esto te da los mensajes de validación exactos
+        //console.log("Error al crear atleta", error.error); // <-- Esto te da los mensajes de validación exactos
 
         this.toastr.show('Error al crear Atleta', 'error')
       }
@@ -98,8 +98,8 @@ export class NewAtletaComponent {
 
   confirmarEliminacion() {
     if (this.atletaAct) {
-      console.log("entrando a confirmar eliminacion")
-      console.log("atletaAct:", this.atletaAct);
+      //console.log("entrando a confirmar eliminacion")
+      //console.log("atletaAct:", this.atletaAct);
       this.eliminarAtleta();
 
       // Cerrar el modal manualmente

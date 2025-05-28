@@ -58,7 +58,7 @@ export class ModAtletaComponent {
   ngOnInit(): void {
     this.fetchQuote();
     this.clienteId = +this.activatedRoute.snapshot.paramMap.get('id')!;
-    console.log("clienteID",this.clienteId);
+    //console.log("clienteID",this.clienteId);
     this.getAtleta();
   }
 
@@ -112,7 +112,7 @@ export class ModAtletaComponent {
               fotoURL: dataUsuario.fotoURL
             };
 
-            console.log("Atleta cargado:", this.atletaAct);
+            //console.log("Atleta cargado:", this.atletaAct);
           },
           error: (error) => {
             console.error("Error al obtener datos de cliente:", error);
@@ -139,15 +139,15 @@ export class ModAtletaComponent {
     if (this.fotoSeleccionada !== null) {
       formData.append('foto', this.fotoSeleccionada);
     }
-    console.log("formData", formData);
+    //console.log("formData", formData);
     this.__modAtletaService.actualizarAtleta(this.atletaAct.id, formData).subscribe({
       next: (response) => {
-        console.log("Atleta actualizado", response);
+        //console.log("Atleta actualizado", response);
         this.router.navigate(["/dashboard-entrenador"]);
         this.toastr.show('Atleta actualizado correctamente', 'success')
       },
       error: (error) => {
-        console.log("Error al actualizar atleta", error.error);
+        //console.log("Error al actualizar atleta", error.error);
         this.toastr.show('Error al actualizar Atleta', 'error')
       }
     });
@@ -178,7 +178,7 @@ export class ModAtletaComponent {
   eliminarAtleta() {
     this.__modAtletaService.eliminarAtleta(this.atletaAct.id).subscribe({
       next: (response) => {
-        console.log("Atleta eliminado", response);
+        //console.log("Atleta eliminado", response);
         this.toastr.show('Atleta eliminado correctamente', 'success');
         this.router.navigate(['/dashboard-entrenador']);
       },

@@ -45,7 +45,7 @@ export class DashboardAdministradorComponent {
   constructor(private __stoicQuoteService: StoicQuoteService, private __administradorService: DashboardAdministradorService) { }
 
   ngOnInit(): void {
-    console.log("entranodo en dashboard-entrenador");
+    //console.log("entranodo en dashboard-entrenador");
     this.fetchQuote();
     this.getEntrenadores();
   }
@@ -74,12 +74,12 @@ export class DashboardAdministradorComponent {
   getEntrenadores() {
     this.__administradorService.getEntrenadores().subscribe({
       next: (response) => {
-        console.log("response", response);
+        //console.log("response", response);
         this.entrenadores = response;
         this.filtrarEntrenadores();
       },
       error: (error) => {
-        console.log("error", error);
+        //console.log("error", error);
       }
     })
 

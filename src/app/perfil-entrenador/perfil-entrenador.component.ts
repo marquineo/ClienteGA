@@ -84,26 +84,26 @@ export class PerfilEntrenadorComponent {
     let cantAtletas = 0;
     this.__entrenadorService.getClientes(this.id).subscribe({
       next: (response) => {
-        console.log("clientes:", response);
+        //console.log("clientes:", response);
         response.forEach((item: any) => {
           cantAtletas++;
         });
         this.trainerForm.patchValue({
           numAtletas: cantAtletas
         });
-        console.log("cantidad atletas:", cantAtletas)
+        //console.log("cantidad atletas:", cantAtletas)
       },
       error: (error) => {
-        console.log("error al obtener clientes", error);
+        //console.log("error al obtener clientes", error);
       }
     })
   }
 
   getEntrenador() {
-    console.log("this.id", this.id)
+    //console.log("this.id", this.id)
     this.__entrenadorService.getEntrenador(this.id).subscribe({
       next: (response) => {
-        console.log("response", response);
+        //console.log("response", response);
         this.trainerForm.patchValue({
           name: response.nombre,
           email: response.email,
@@ -113,11 +113,11 @@ export class PerfilEntrenadorComponent {
           creado_en: response.creado_en,
         });
         this.entrenadorAct.fotoURL = response.fotoURL;
-        console.log("this.entrenadorAct.fotoURL", this.entrenadorAct.fotoURL);
+        //console.log("this.entrenadorAct.fotoURL", this.entrenadorAct.fotoURL);
 
       },
       error: (error) => {
-        console.log("error:", error);
+        //console.log("error:", error);
       }
     })
   }
@@ -139,7 +139,7 @@ export class PerfilEntrenadorComponent {
 
   submitForm(): void {
     if (this.trainerForm.invalid) {
-      console.log('Formulario no válido');
+      //console.log('Formulario no válido');
       return;
     }
 
@@ -156,16 +156,16 @@ export class PerfilEntrenadorComponent {
       formData.append('foto', this.selectedFile); // ✅ archivo real, no el nombre
     }
 
-    console.log("Datos enviados:", formData);
+    //console.log("Datos enviados:", formData);
 
     this.__perfilEntrenadorService.updateEntrenador(this.id, formData).subscribe({
       next: (response) => {
-        console.log("response", response);
+        //console.log("response", response);
         this.toatr.show("Perfil actualizado satisfactoriamente", "success");
         this.route.navigate(["/dashboard-entrenador"]);
       },
       error: (error) => {
-        console.log("error", error);
+        //console.log("error", error);
         this.toatr.show("Error al actualizar perfil de entrenador", "error");
       }
     });

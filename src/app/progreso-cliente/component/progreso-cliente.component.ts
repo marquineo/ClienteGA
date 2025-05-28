@@ -52,9 +52,9 @@ export class ProgresoClienteComponent implements OnInit {
   }
 
   cargarProgresos() {
-    console.log("clienteID", this.clienteId);
+    //console.log("clienteID", this.clienteId);
     this.__progresoService.getProgresos(this.clienteId).subscribe(progresos => {
-      console.log("progresos", progresos);
+      //console.log("progresos", progresos);
       const fechas = progresos.map(p => p.fecha);
       const pesos = progresos.map(p => p.peso);
       const grasas = progresos.map(p => p.grasa_corporal);

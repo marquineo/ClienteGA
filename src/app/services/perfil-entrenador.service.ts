@@ -23,7 +23,7 @@ export class PerfilEntrenadorService {
   updateEntrenador($usuario_id: number, formData: FormData): Observable<any> {
     const URLUPDATE = `${this.urlApi}/${$usuario_id}/actualizar/entrenador`
     return this.http.post<any>(URLUPDATE, formData).pipe(
-      tap(response => console.log("Respuesta del servidor", response))
+      //tap(response => //console.log("Respuesta del servidor", response))
     )
   }
 }

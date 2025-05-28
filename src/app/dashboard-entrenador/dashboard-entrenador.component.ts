@@ -44,7 +44,7 @@ export class DashboardEntrenadorComponent implements OnInit {
   constructor(private __stoicQuoteService: StoicQuoteService, private __entrenadorService: EntrenadorService, private __rutinasService: RutinaEntrenamientoService,    private router: Router,) { }
 
   ngOnInit(): void {
-    console.log("entranodo en dashboard-entrenador");
+    //console.log("entranodo en dashboard-entrenador");
     this.fetchQuote();
     this.getAtletas();
   }
@@ -72,7 +72,7 @@ export class DashboardEntrenadorComponent implements OnInit {
 
 getAtletas() {
   const hoy = new Date().toISOString().split('T')[0]; // "2025-05-21"
-  console.log("Hoy es:", hoy);
+  //console.log("Hoy es:", hoy);
 
   this.__entrenadorService.getClientes(this.id).subscribe({
     next: (clientes) => {
@@ -112,7 +112,7 @@ getAtletas() {
       });
     },
     error: (error) => {
-      console.log("error al obtener clientes", error);
+      //console.log("error al obtener clientes", error);
     }
   });
 }

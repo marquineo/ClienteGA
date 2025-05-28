@@ -94,13 +94,13 @@ export class DashboardClienteComponent implements OnInit {
     this.cargarFechasConEntrenamiento();
     this.cargarEntrenamiento(this.fechaSeleccionada);
     this.cargarRegistrosProgreso();
-    console.log('Fecha actual:', this.viewDate); // ¿Muestra "2024-05-21"?
+    //console.log('Fecha actual:', this.viewDate); // ¿Muestra "2024-05-21"?
   }
 
   cargarEntrenamiento(fecha: string) {
     this.__dashboardService.getEntrenamientoPorFecha(this.clienteId, fecha).subscribe({
       next: (data: RutinaConEjercicios[]) => {
-        console.log("Entrenamiento para fecha", fecha, data);
+        //console.log("Entrenamiento para fecha", fecha, data);
         this.entrenamientoDelDia = data;
       },
       error: () => {
@@ -151,18 +151,18 @@ export class DashboardClienteComponent implements OnInit {
       peso: this.progresoForm.value.peso,
       grasa_corporal: this.progresoForm.value.grasa_corporal,
     };
-    console.log("nuevoProgreso", nuevoProgreso);
+    //console.log("nuevoProgreso", nuevoProgreso);
 
     this.__dashboardService.guardarProgreso(nuevoProgreso, this.clienteId).subscribe({
       next: (response) => {
         this.toastr.show('Progreso registrado correctamente', 'success');
         this.mostrandoFormulario = false;
-        console.log("response", response);
+        //console.log("response", response);
         this.cargarRegistrosProgreso();
       },
       error: (error) => {
         this.toastr.show('Error al registrar progreso', 'error');
-        console.log("error", error);
+        //console.log("error", error);
       }
     });
   }
@@ -200,12 +200,12 @@ export class DashboardClienteComponent implements OnInit {
   eliminarProgreso(id: number) {
     this.__dashboardService.deleteProgreso(id).subscribe({
       next: (response) => {
-        console.log("response", response);
+        //console.log("response", response);
         this.toastr.show("eliminado correctamente", "success");
         this.cargarRegistrosProgreso();
       },
       error: (error) => {
-        console.log("error", error);
+        //console.log("error", error);
         this.toastr.show("Error al eliminar progreso", "error");
       }
     })

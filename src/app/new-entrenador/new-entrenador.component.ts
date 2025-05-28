@@ -81,15 +81,15 @@ export class NewEntrenadorComponent {
     if (this.fotoSeleccionada !== null) {
       formData.append('foto', this.fotoSeleccionada);
     }
-    console.log("formData", formData);
+    //console.log("formData", formData);
     this.__entrenadorService.newEntrenador(formData).subscribe({
       next: (response) => {
-        console.log("entrenador creado", response);
+        //console.log("entrenador creado", response);
         this.router.navigate(["/dashboard-administrador"]);
         this.toastr.show('Entrenador creado correctamente', 'success')
       },
       error: (error) => {
-        console.log("Error al crear atleta", error.error);
+        //console.log("Error al crear atleta", error.error);
 
         this.toastr.show('Error al crear Atleta', 'error')
       }
@@ -98,8 +98,8 @@ export class NewEntrenadorComponent {
 
   confirmarEliminacion() {
     if (this.entrenadorAct) {
-      console.log("entrando a confirmar eliminacion")
-      console.log("entrenadorAct:", this.entrenadorAct);
+      //console.log("entrando a confirmar eliminacion")
+      //console.log("entrenadorAct:", this.entrenadorAct);
       this.eliminarAtleta();
 
       // Cerrar el modal manualmente
