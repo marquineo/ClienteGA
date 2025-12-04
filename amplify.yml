@@ -9,8 +9,7 @@ applications:
           commands:
             - npx ng build --configuration production
       artifacts:
-        # Ajusta esta ruta si tu build genera algo diferente
-        baseDirectory: dist
+        baseDirectory: dist/gym-bro-analytics/browser
         files:
           - '**/*'
       cache:
