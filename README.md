@@ -1,130 +1,73 @@
-# BackGA
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/marquineo/BackGA)
+# GymBroAnalytics Frontend
 
-BackGA is the backend API for GymBroAnalytics, a fitness application designed to connect trainers and clients. It provides a robust system for managing users, creating personalized training routines, tracking physical progress, and facilitating communication.
+This is the official Angular frontend for GymBroAnalytics, a comprehensive fitness platform designed to connect personal trainers with their clients. It provides an interactive and user-friendly interface for managing training routines, tracking progress, and visualizing performance data.
 
-Built with the Laravel framework, this repository contains all the necessary components to run the server-side logic of the application.
+This application is built as a client for the [BackGA (Laravel API)](https://github.com/marquineo/BackGA).
 
-## Key Features
+## Features
 
-*   **Multi-Role User System**: Supports `admin`, `entrenador` (trainer), and `cliente` (client) roles with distinct functionalities.
-*   **User Management**: Full CRUD capabilities for trainers, clients, and administrators.
-*   **Trainer & Client Dashboard Support**: Endpoints to fetch data specific to trainer and client dashboards, such as client lists for trainers.
-*   **Personalized Training Routines**: Trainers can create, update, and assign detailed training routines to their clients. Routines include exercises with specified sets, reps, rest times, and RPE.
-*   **Physical Progress Tracking**: Clients can log their physical metrics over time, including weight, body fat percentage, and various circumferences. The API provides endpoints to visualize this progress.
-*   **Workout Scheduling**: Exercises can be assigned to specific dates, allowing clients to see their workout plan for any given day.
-*   **Email Notifications**: Integrated with Sendinblue to automatically send emails for significant events, such as when a new client registers or a new routine is assigned.
-*   **Image Uploads**: Support for uploading and storing profile pictures for users.
-*   **Containerized Deployment**: Includes a `Dockerfile` for easy setup and deployment using Docker.
+*   **Role-Based Dashboards**: Separate, feature-rich dashboards for Administrators, Trainers (`Entrenador`), and Clients (`Cliente`).
+*   **Administrator Dashboard**: Provides tools to manage the platform's trainers, including adding new trainers, modifying their profiles, and managing their access.
+*   **Trainer Dashboard**: Allows trainers to view and manage their assigned clients, add new athletes, and quickly access their training schedules and progress information.
+*   **Client Dashboard**: Features an interactive calendar to display daily workout schedules. Clients can log physical progress (e.g., weight, body fat) and view their historical data through graphical charts.
+*   **Dynamic Routine Management**: Trainers can create, edit, and assign complex training routines with specific exercises, sets, reps, rest times, and RPE (Rate of Perceived Exertion).
+*   **Progress Visualization**: Clients and trainers can track physical evolution through line, bar, and radar charts that visualize key metrics over time.
+*   **Secure Authentication**: A robust login system with role-based routing protected by authentication guards ensures that users can only access authorized sections.
 
-## Built With
+## Tech Stack
 
-*   [Laravel 11](https://laravel.com/)
-*   [PHP 8.2](https://www.php.net/)
-*   [PostgreSQL](https://www.postgresql.org/)
-*   [Sendinblue (Brevo)](https://www.brevo.com/) for transactional emails
-*   [Docker](https://www.docker.com/)
+*   **Framework**: [Angular 19](https://angular.io/)
+*   **Language**: [TypeScript](https://www.typescriptlang.org/)
+*   **Styling**: [Bootstrap 5](https://getbootstrap.com/) & [Font Awesome](https://fontawesome.com/)
+*   **Data Visualization**: [Chart.js](https://www.chartjs.org/) with [ng2-charts](https://valor-software.com/ng2-charts/)
+*   **Calendar**: [angular-calendar](https://github.com/mattlewis92/angular-calendar)
+*   **Notifications**: [ngx-toastr](https://github.com/scttcper/ngx-toastr)
+*   **State Management**: [RxJS](https://rxjs.dev/)
 
 ## Getting Started
 
-To get a local copy up and running, follow these simple steps.
+To get a local copy up and running, follow these steps.
 
 ### Prerequisites
 
-*   PHP >= 8.2
-*   Composer
-*   PostgreSQL Database
+*   Node.js (v18 or later)
+*   npm (v9 or later)
+*   Angular CLI (`npm install -g @angular/cli`)
 
 ### Installation
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/marquineo/BackGA.git
-    cd BackGA
+    git clone https://github.com/marquineo/clientega.git
+    cd clientega
     ```
 
-2.  **Install PHP dependencies:**
+2.  **Install dependencies:**
     ```sh
-    composer install
+    npm install
     ```
 
-3.  **Create and configure the environment file:**
-    Copy the example environment file and generate an application key.
+3.  **Run the development server:**
     ```sh
-    cp .env.example .env
-    php artisan key:generate
+    ng serve
     ```
+    Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-4.  **Configure your `.env` file:**
-    Update the database connection details (`DB_*`) and mailer settings to match your local environment.
-    ```ini
-    DB_CONNECTION=pgsql
-    DB_HOST=127.0.0.1
-    DB_PORT=5432
-    DB_DATABASE=your_database
-    DB_USERNAME=your_username
-    DB_PASSWORD=your_password
+**Note:** This application is a client for a backend API. The API endpoints are configured in the service files (e.g., `src/app/services/*.ts`) and point to `https://api.gymbroanalytics.xyz`. For local development, you may need to run the corresponding backend server and update these URLs to point to your local instance (e.g., `http://127.0.0.1:8000`).
 
-    MAIL_MAILER=log
-    MAIL_FROM_ADDRESS=hello@example.com
-    MAIL_FROM_NAME="${APP_NAME}"
-    ```
+## Available Scripts
 
-5.  **Run database migrations:**
-    This will create all the necessary tables in your database.
-    ```sh
-    php artisan migrate
-    ```
+In the project directory, you can run:
 
-6.  **Create the storage link:**
-    This makes uploaded files (like profile pictures) publicly accessible.
-    ```sh
-    php artisan storage:link
-    ```
+*   `ng serve`: Runs the app in development mode.
+*   `ng build`: Builds the project for production. The build artifacts will be stored in the `dist/` directory.
+*   `ng test`: Executes the unit tests via [Karma](https://karma-runner.github.io).
+*   `npm start`: Runs a simple Express server to serve the production build from the `dist/` directory. This is useful for testing the production version locally.
 
-7.  **Start the development server:**
-    ```sh
-    php artisan serve
-    ```
-    The API will be available at `http://127.0.0.1:8000`.
+## Deployment
 
-## Docker Setup
+This repository is pre-configured for deployment on several platforms:
 
-You can also run the application within a Docker container.
-
-1.  **Build the Docker image:**
-    ```sh
-    docker build -t backga .
-    ```
-
-2.  **Run the container:**
-    This command will start the application and map port 10000 on your host to port 10000 in the container.
-    ```sh
-    docker run -p 10000:10000 -d --name backga-container -v $(pwd):/var/www/html backga
-    ```
-    Ensure your `.env` file is configured to connect to your database from within the Docker network. The API will be accessible at `http://localhost:10000`.
-
-## API Endpoints
-
-The API provides a set of RESTful endpoints to manage the application's data.
-
-| Method | Endpoint                                        | Description                                        |
-| :----- | :---------------------------------------------- | :------------------------------------------------- |
-| **Auth** | | |
-| POST   | `/api/users/login`                              | Authenticate a user and get their role and ID.     |
-| POST   | `/api/users/registrar/cliente`                  | Register a new client.                             |
-| POST   | `/api/users/registrar/entrenador`               | Register a new trainer.                            |
-| **Users** | | |
-| GET    | `/api/users/{trainer_id}/clientes`              | Get all clients assigned to a specific trainer.    |
-| POST   | `/api/users/clientes/atletas/{id}/actualizar`   | Update a client's profile information.             |
-| GET    | `/api/users/entrenadores`                       | Get a list of all trainers.                         |
-| POST   | `/api/users/{usuario_id}/actualizar/entrenador` | Update a trainer's profile information.            |
-| **Routines** | | |
-| PUT    | `/api/rutinas/cliente/{clienteId}`              | Create or update a training routine for a client.  |
-| GET    | `/api/rutinas/{clienteId}`                      | Get all routines for a specific client.            |
-| GET    | `/api/rutinas/entrenamientos/{clienteId}`       | Get a client's scheduled workout for a given date. |
-| POST | `/api/rutinas/clientes/{clienteId}/rutinas/eliminar` | Delete specified routines for a client. |
-| **Progress** | | |
-| POST   | `/api/progresos/guardar/{clienteId}`            | Save a new physical progress entry for a client.   |
-| GET    | `/api/progresos/{clienteId}`                    | Get all physical progress entries for a client.    |
-| DELETE | `/api/progresos/eliminar/{id}`                  | Delete a specific physical progress entry.         |
+*   **AWS Amplify**: The `amplify.yml` file contains the build and deployment configuration for continuous deployment with AWS Amplify.
+*   **Node.js Environment**: The included `server.js` file provides a basic Express server to serve the static application. After building the project with `npm run build`, you can start the server using `npm start`.
+*   **Replit**: The `.replit` file allows for easy setup and execution on the Replit platform.
